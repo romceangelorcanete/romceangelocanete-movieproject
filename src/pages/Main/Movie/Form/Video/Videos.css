@@ -113,6 +113,7 @@ body {
 }
 
 .card-video {
+  height: auto;
   background-color: #333;
   border-radius: 12px;
   overflow: hidden;

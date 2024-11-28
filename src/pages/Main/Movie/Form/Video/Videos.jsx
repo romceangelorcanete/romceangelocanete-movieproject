@@ -308,6 +308,7 @@ function VideoForm() {
                 <iframe
                   className="video-style"
                   width="100%"
+                  height="50%"
                   src={`https://www.youtube.com/embed/${items.videoKey}`}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
