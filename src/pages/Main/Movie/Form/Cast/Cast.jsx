@@ -181,7 +181,7 @@ function Casts() {
               Authorization: `Bearer ${auth.accessToken}`,
             },
           });
-          alert('Updated Successfully!!!');
+          alert('updated Successfully!');
           console.log(response.message);
           handleclear();
           getAll(movieId)
@@ -219,7 +219,7 @@ function Casts() {
         .catch((error) => {
           console.error(error);
           getAll(movieId);
-          alert("Delete Success!!!");
+          alert("Delete Success!");
         });
     }
   };

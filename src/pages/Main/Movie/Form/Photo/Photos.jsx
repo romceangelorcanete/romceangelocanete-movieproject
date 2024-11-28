@@ -1,158 +1,281 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState, useContext, useCallback, useRef } from 'react'
+import { AuthContext } from "../../../../../context/context";
 import './Photos.css'
-import { useNavigate, useParams } from 'react-router-dom';
-import { AuthContext } from '../../../../../context/context';
-import { useDebounce } from '../../../../../utils/hooks/useDebounce';
-import axios from 'axios';
-import Form from './Form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios'
+import { useParams } from 'react-router-dom';
 
 function Photos() {
-
-  const { auth } = useContext( AuthContext );
-
-  let { tmdbId } = useParams();
+  const { auth } = useContext(AuthContext);
+  const [photoid, setPhotoId] = useState(undefined);
+  const urlRef = useRef();
+  const descriptionRef = useRef();
+  const [photos, setPhotos] = useState([]);
+  const [selectedphoto, setSelectedPhoto] = useState({});
   let { movieId } = useParams();
 
-  const [photoData, setPhotoData] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState();
-
-  const [state, setState] = useState('base');
-
-  // alert box state
-  const [alertMessage, setAlertMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-
-  useEffect(()=>{
-    getAll();
-  },[state])
-
-  function getAll(){
+  const getAll = useCallback((movieId) => {
     axios({
       method: 'get',
-      url: `/photos`,
+      url: `/movies/${movieId}`,
       headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-    }).then((response) => {
-        setPhotoData(response.data)
-        console.log(response.data)
-  })
+        Accept: 'application/json',
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => {
+        setPhotos(response.data.photos);
+      })
+      .catch((error) => {
+        console.error("Error fetching Photos:", error.response.data);
+      });
+  }, [auth.accessToken])
+
+  useEffect(() => {
+    getAll(movieId);
+  }, [movieId, getAll]);
+
+  const validateField = (fieldRef, fieldName) => {
+    if (!fieldRef.current.value.trim()) {
+      fieldRef.current.style.border = '2px solid red';
+      setTimeout(() => {
+        fieldRef.current.style.border = '1px solid #ccc';
+      }, 2000);
+      console.log(`${fieldName} cannot be empty.`)
+      return false;
+    }
+    return true;
   }
 
-  //IMPORT FUNCTION
-  function importPhotos(){
-    axios({
-        method: 'get',
-        url: `https://api.themoviedb.org/3/movie/${tmdbId}/images`,
-        headers: {
-            Accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlN2FhNTRiYzJhNzI2MTFlZjY3MDAxZDllYjVkNThkMyIsIm5iZiI6MTcyOTI5NzUwNi40MzA0MTYsInN1YiI6IjY3MTJmYTU3MTZjYWE4YjBmMDljN2U1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.prLBCxZWKAzfnbc5pboPiBEiHNWu4j8csiGBO2Af7x4', // Make sure to replace this with your actual API key
-          },
-    }).then((response) => {
-        saveImportedCasts(response.data.backdrops);
+  const handlesave = async () => {
 
-        setIsError(false);
-        setAlertMessage(`Successfully Imported ${response.data.backdrops.length} Photos`);
-        setTimeout(() => {
-          setAlertMessage('')
-          getAll();
-        }, 2000);
+    const validateFields = () => {
+      const isUrlValid = validateField(urlRef, "URL");
+      const isDescriptionValid = validateField(descriptionRef, "Description");
 
-    })
-}
-
-async function saveImportedCasts(importedData) {
-  console.log(importedData)
-  await Promise.all(importedData.map(async (data) => {
-    const payload = {
-      userId: auth.user.userId,
-      movieId: tmdbId,
-      url: `https://image.tmdb.org/t/p/w500/${data.file_path}`,
-      description: `Imported from TMDB`,
+      return isUrlValid && isDescriptionValid;
     };
-    console.log('Sending payload:', payload);
-    try {
-      const response = await axios.post('/photos', payload, {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      });
-      console.log('Response:', response);
-    } catch (error) {
-      console.error('Error sending cast data:', error);
-    }
-  }));
-  console.log('Done!');
-}
 
-  const handleDelete = (id) => {
-    const isConfirmed = window.confirm('Are you sure you want to delete this photo?');
-    if (isConfirmed) {
+    if (!validateFields()) {
+      return; // This is for stop if any valid is null
+    } else {
+      try {
+        const dataphoto = {
+          userId: auth.user.userId,
+          movieId: movieId,
+          url: selectedphoto.url,
+          description: selectedphoto.description,
+        }
+        await axios({
+          method: 'POST',
+          url: '/admin/photos',
+          data: dataphoto,
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          }
+        });
+        alert('Added Success');
+        setSelectedPhoto([])
+        getAll(movieId);
+      } catch (error) {
+        console.log("Error Saving Photo", error.response?.data || error.message);
+      }
+    }
+  }
+
+  const handledelete = (id) => {
+    const isConfirm = window.confirm("Are you Sure to Delete this Photo?");
+
+    if (isConfirm) {
       axios({
         method: 'delete',
         url: `/photos/${id}`,
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },
-      })
-        .then((response) => {
-          console.log('Database Updated');
-          console.log(response.data);
-          setIsError(false);
-          setAlertMessage(response.data.message);
-          setTimeout(() => {
-            setAlertMessage('');
-            setState('base');
-            getAll();
-          }, 2000);
-        })
-        .catch((error) => {
-          console.log(error.data);
-          setIsError(true);
-          setAlertMessage(error.data.message);
-          setTimeout(() => setAlertMessage(''), 2000);
-        });
+      }).then(() => {
+        alert("Delete Success");
+        getAll(movieId);
+        console.log("Database Updated");
+      }).catch((err) => {
+        console.log("err");
+      });
     }
   };
 
+  const handleclear = useCallback(() => {
+    setSelectedPhoto([]);
+    setPhotoId(undefined);
+  }, [setSelectedPhoto, setPhotoId]);
+
+  const photofetch = async (id) => {
+    axios({
+      method: 'get',
+      url: `/photos/${id}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => {
+        setSelectedPhoto(response.data);
+        setPhotoId(response.data.id)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+  }
+
+  const photoUpdate = async (id) => {
+    const validateFields = () => {
+      const isUrlValid = validateField(urlRef, "URL");
+      const isDescriptionValid = validateField(descriptionRef, "Description");
+
+      return isUrlValid && isDescriptionValid;
+    };
+
+    if (!validateFields()) {
+      return; // This is for stop if any valid is null
+    } else {
+      const isConfirm = window.confirm("Are you sure you want to update the Photo?");
+      if (isConfirm) {
+        const dataphoto = {
+          userId: auth.user.userId,
+          movieId: selectedphoto.movieId,
+          description: selectedphoto.description,
+          url: selectedphoto.url,
+        };
+
+        console.table(dataphoto);
+        try {
+          const response = await axios({
+            method: 'patch',
+            url: `/photos/${id}`,
+            data: dataphoto,
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${auth.accessToken}`,
+            },
+          });
+          console.log(response.data);
+          alert('updated successfully!')
+          handleclear();
+          getAll(movieId)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+  }
+
   return (
-    <>
-    <div className='photo-header'>
-      {alertMessage && (<div className={`alert-box ${isError ? 'error' : 'success'}`}>{alertMessage}</div>)}
-      <h2 onClick={() => setState('base')}>{state !== 'base' ? <span className='back-button fas fa-chevron-left'><h3>Back to Photos</h3></span> :  'Photos'}</h2>
-      <div>
-        <button onClick={importPhotos}>IMPORT PHOTOS</button>
-        {state == 'base' && <button onClick={()=>setState('add')}>ADD PHOTO</button>}
-      </div>
-    </div>
-    {state === 'add' && (<Form data={[]} state={state} setState={setState}/>)}
-    {state === 'update' && (<Form data={selectedPhoto} state={state}  setState={setState}/>)}
-    {state === 'base' && (<div className="photo-cards-container">
-        <div className="photo-cards-group">
-        {photoData?.map((photo) => (
-          photo.movieId === parseInt(tmdbId) && (
-            <div key={photo.id} className="photo-card" onClick={() => {setSelectedPhoto(photo)}}>
-              <div className='control-group'>
-                <span onClick={() => {setSelectedPhoto(photo); setState('update')}} className='fas fa-edit'></span>
-                <span onClick={() => {handleDelete(photo.id)}} className='fas fa-trash-can'></span>
+    <div className='photo-box'>
+      <div className='Photo-View-Box'>
+        {photos !== undefined && photos.length > 0 ? (
+          <div className='card-display-photo'>
+            {photos.map((image) => (
+              <div key={image.id} className='card-photo'>
+                <div className='buttons-group'>
+                  <button
+                    type='button'
+                    className='delete-button'
+                    onClick={() => handledelete(image.id)}
+                  >
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </button>
+                  <button
+                    type='button'
+                    className='edit-button'
+                    onClick={() => photofetch(image.id)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                </div>
+                <img src={image.url} alt={image.description} style={{ width: '100%' }} className='image-style' />
+                <div className='container-photo'>
+                  <p>{image.description}</p>
+                </div>
               </div>
-              <img
-                src={
-                  photo.url && !photo.url.includes("null")
-                    ? photo.url
-                    : 'https://via.placeholder.com/500x750?text=No+Image'
-                }
-                alt={photo.description}
-                className="photo-image"
+            ))}
+          </div>
+        ) : (
+          <div className='no-photo'>
+            <h3>Photos not Found</h3>
+          </div>
+        )}
+      </div>
+      <div className='Photo-Search-Box'>
+        <div className='parent-container'>
+          <div className='photo-detail-box'>
+            <div className='photo-container-center'>
+              <div className='photo-image-container'>
+                <img
+                  alt='photo-movies'
+                  src={selectedphoto.url
+                    ? selectedphoto.url
+                    : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
+                  }
+                  className='photo-img'
+                />
+              </div>
+            </div>
+          </div>
+          <div className='photo-info-text'>
+            <div className='input-group'>
+              <label className='label-photo'>
+                Url Image:
+              </label>
+              <input
+                className='photo-url'
+                value={selectedphoto.url || ''}
+                onChange={(e) => setSelectedPhoto({ ...selectedphoto, url: e.target.value })}
+                ref={urlRef}
               />
             </div>
-          )
-        ))}
+            <div className='input-group'>
+              <label className='label-photo'>
+                Description:
+              </label>
+              <textarea
+                className='photo-description'
+                value={selectedphoto.description || ''}
+                onChange={(e) => setSelectedPhoto({ ...selectedphoto, description: e.target.value })}
+                ref={descriptionRef}
+              />
+            </div>
+          </div>
+          <div className='save-edit-back-btn'>
+            {!photoid ? (
+              <>
+                <button className='edit-save-btn'
+                  type='button'
+                  onClick={handlesave}
+                >
+                  Save
+                </button>
+              </>
+            ) : (
+              <>
+                <button className='edit-save-btn'
+                  type='button'
+                  onClick={() => photoUpdate(photoid)}
+                >
+                  Update
+                </button>
+              </>
+            )}
+
+            <button className='clear-btn'
+              type='button'
+              onClick={handleclear}
+            >
+              Clear
+            </button>
+          </div>
         </div>
-    </div>)}
-    </>
+      </div>
+    </div>
   )
 }
 

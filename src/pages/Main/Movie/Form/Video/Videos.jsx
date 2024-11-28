@@ -268,7 +268,7 @@ function VideoForm() {
               Authorization: `Bearer ${auth.accessToken}`,
             },
           });
-          alert("Updated Successfully");
+          alert("updated Successfully!");
           console.log(response.message);
           handleclear();
           getAll(movieId);

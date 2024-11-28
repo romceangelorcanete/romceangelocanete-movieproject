@@ -1,207 +1,267 @@
-.photo-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 30px;
-  }
-  
-  .photo-header > div > button{
-    max-width: 150px;
-    width: 150px;
-    padding: 10px;
-    border-radius: 30px;
-    background-color: hsl(214, 83%, 55%);
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  
-  .photo-header > h2{
-    cursor: pointer;
-  }
-  
-  .back-button{
-    margin-top: 7px;
-    margin-bottom: 5px;
-    font-size: 15px;
-    margin-left: 5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .back-button h3{
-    margin: 0;
-    font-family: 'Inter';
-  }
-  
-  .photo-cards-container {
-      position: relative;
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: scroll;
-      padding: 20px 0px;
-      scrollbar-color: hsl(214, 83%, 55%) hsl(216, 28%, 10%) ;
-      width: 100%;
-    }
-  
-    .photo-cards {
-      display: flex;
-      gap: 16px;
-      transition: transform 0.3s ease;
-    }
-  
-    .photo-card {
-      flex-shrink: 0;
-      width: 200px;
-      background-color: hsl(216, 42%, 14%);
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      padding: 10px;
-      transition: transform 0.3s ease-in-out;
-    }
-  
-    .photo-card:hover {
-      transform: scale(1.05);
-    }
-  
-    .photo-image {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    
-    .photo-info {
-      margin-top: 8px;
-    }
-    
-    .photo-info h3 {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    
-    .photo-info p {
-      font-size: 14px;
-      color: #777;
-    }
-  
-  .photo-cards{
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-  }
-  
-  .photo-cards-group{
-    display: flex;
-    gap: 20px;
-  }
-  
-  .photo-cards form{
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    width: 100%;
-    margin: 0px 30px;
-  }
-  
-  .photos-details{
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-    gap: 30px;
-    width: fit-content;
-    min-width: 500px;
-  }
-  
-  .photos-details .field{
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .photos-details .field input, textarea{
-    padding: 10px;
-    border-radius: 15px;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.photos-details .field input{
-    background-color: hsl(216, 42%, 14%);
-    color: white;
-    padding: 10px 195px 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 1rem;
-    border-radius: 10px;
-    border: none;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1e1e1e;
+  color: white;
 }
 
-.photo-profile{
-    display: flex;
-    justify-content: end;
-    margin-right: 50px;
+/* Main Photo Box */
+.photo-box {
+  background-color: #2a2a2a;
+  height: 100vh;
+  display: flex;
+  border-radius: 8px;
+  gap: 20px;
+  padding: 20px;
 }
 
-  .photo-profile > .photo-image {
-    padding: 20px;
-    width:100%;
-    height: auto;
-    max-height: 500px;
-    object-fit: fill;
-    border-radius: 50px;
-  }
-  
-  .button-group{
-    display: flex;
-    justify-content: end;
-    margin: 40px 0px;
-    gap: 20px;
-  }
-  
-  .button-group > button{
-    max-width: 150px;
-    width: 150px;
-    padding: 10px;
-    border-radius: 30px;
-    background-color: hsl(214, 83%, 55%);
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-   .button-group > .delete-button{
-    background-color: hsl(0, 100%, 68%);
-  }
-  
-   .button-group{
-    display: flex;
-  }
-
-
-  .remove-btn{
-    padding-left: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease-in;
+/* Photo View & Search Sections */
+.Photo-View-Box,
+.Photo-Search-Box {
+  border-radius: 8px;
+  padding: 15px;
 }
 
-  .remove-btn:hover{
-    scale: 1.1;
-    color: hsl(0, 100%, 68%);
-  }
-  
+.Photo-View-Box {
+  flex: 3;
+  background-color: #333;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
-  #file-name{
-    padding-left: 10px;
-    width: 450px;
-    overflow: hidden;
-    flex-wrap: nowrap;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.Photo-Search-Box {
+  flex: 1;
+  background-color: #292929;
+  border-radius: 8px;
+  padding: 20px;
+}
 
-  #file-name-container{
-    display: flex;
-    align-items: center;
-  }
+/* Search Section */
+.photo-search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  text-align: center;
+}
+
+.photo-search-input {
+  width: 90%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #3a3a3a;
+  color: white;
+  transition: border 0.3s ease;
+}
+
+.photo-search-input:focus {
+  border-color: #5a95ff;
+  outline: none;
+}
+
+.photo-search-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-btn,
+.save-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  border: none;
+}
+
+.search-btn {
+  background-color: #5a95ff;
+  color: white;
+}
+
+.search-btn:hover {
+  background-color: #4a85e0;
+  transform: scale(1.05);
+}
+
+.save-btn {
+  background-color: #28c76f;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #22b65c;
+  transform: scale(1.05);
+}
+
+/* Photo Card Display */
+.card-display-photo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-photo {
+  width: 100%;
+  background-color: #444;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-photo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.card-photo img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.container-photo {
+  padding: 15px;
+  text-align: center;
+}
+
+.container-photo h4 {
+  font-size: 18px;
+  color: #aad6ff;
+  margin-bottom: 5px;
+}
+
+.container-photo p {
+  font-size: 14px;
+  color: #bbb;
+}
+
+/* Buttons for Edit and Delete */
+.buttons-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  border: none;
+  color: white;
+}
+
+.edit-button {
+  background-color: #28c76f;
+}
+
+.edit-button:hover {
+  background-color: #22b65c;
+  transform: scale(1.05);
+}
+
+.delete-button {
+  background-color: #f44336;
+}
+
+.delete-button:hover {
+  background-color: #e4352c;
+  transform: scale(1.05);
+}
+
+/* Photo Info Section */
+.photo-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.photo-url,
+.photo-description {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #3a3a3a;
+  color: white;
+  transition: border 0.3s ease;
+}
+
+.photo-url:focus,
+.photo-description:focus {
+  border-color: #5a95ff;
+  outline: none;
+}
+
+/* Buttons for Save, Edit, and Back */
+.save-edit-back-btn {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.clear-btn,
+.edit-save-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.clear-btn {
+  background-color: #ffcc00;
+  color: black;
+}
+
+.clear-btn:hover {
+  background-color: #e6b800;
+  transform: scale(1.05);
+}
+
+.edit-save-btn {
+  background-color: #28c76f;
+  color: white;
+}
+
+.edit-save-btn:hover {
+  background-color: #22b65c;
+  transform: scale(1.05);
+}
+
+.label-photo{
+  display: contents;
+}
