@@ -7,7 +7,7 @@ import Dashboard from './pages/Main/Dashboard/Dashboard';
 import Main from './pages/Main/Main';
 import Register from './pages/Public/Register/Register';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-// import Movies from './pages/Main/Movie/Movie';
+import Movies from './pages/Main/Movie/Movie';
 // import MovieLists from './pages/Main/Movie/Lists/Lists';
 // import MovieForm from './pages/Main/Movie/Form/Form';
 // import Casts from './pages/Main/Movie/Form/Cast/Cast';
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/main/movies',
-        // element: <Movies />,
+        element: <Movies />,
         children: [
           {
             path: '/main/movies',
