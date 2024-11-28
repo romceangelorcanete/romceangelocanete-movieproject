@@ -14,9 +14,9 @@ import Casts from './pages/Main/Movie/Form/Cast/Cast';
 import Videos from './pages/Main/Movie/Form/Video/Videos';
 import Photos from './pages/Main/Movie/Form/Photo/Photos';
 import { AuthProvider } from './context/context';
-// import Client from './pages/Client/Client';
-// import Home from './pages/Client/Home/Home';
-// import Movie from './pages/Client/Movie/Movie';
+import Client from './pages/Client/Client';
+import Home from './pages/Client/Home/Home';
+import Movie from './pages/Client/Movie/Movie';
 
 const router = createBrowserRouter([
   {
@@ -74,15 +74,15 @@ const router = createBrowserRouter([
     ],
   },{
     path: '/home',
-    // element: <Client/>,
+    element: <Client/>,
     children: [
         {
           path: '',
-          // element: <Home/>
+          element: <Home/>
         },
         {
           path: 'movie/:movieId',
-          // element: <Movie/>
+          element: <Movie/>
         }
     ]
   }
