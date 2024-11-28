@@ -10,9 +10,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import Movies from './pages/Main/Movie/Movie';
 import MovieLists from './pages/Main/Movie/Lists/Lists';
 import MovieForm from './pages/Main/Movie/Form/Form';
-// import Casts from './pages/Main/Movie/Form/Cast/Cast';
-// import Videos from './pages/Main/Movie/Form/Video/Videos';
-// import Photos from './pages/Main/Movie/Form/Photo/Photos';
+import Casts from './pages/Main/Movie/Form/Cast/Cast';
+import Videos from './pages/Main/Movie/Form/Video/Videos';
+import Photos from './pages/Main/Movie/Form/Photo/Photos';
 import { AuthProvider } from './context/context';
 // import Client from './pages/Client/Client';
 // import Home from './pages/Client/Home/Home';
@@ -57,15 +57,15 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'cast-and-crews/:tmdbId?',
-                // element: <Casts/>,
+                element: <Casts/>,
               },
               {
                 path: 'videos/:tmdbId?',
-                // element: <Videos />,
+                element: <Videos />,
               },
               {
                 path: 'photos/:tmdbId?',
-                // element: <Photos />,
+                element: <Photos />,
               }
             ]
           },
