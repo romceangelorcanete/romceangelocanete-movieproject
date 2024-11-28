@@ -318,7 +318,7 @@ function Casts() {
 
             <div className='info-text'>
               <div className='input-group'>
-                <label>
+                <label className='cast-n'>
                   Cast Name:
                 </label>
                 <input className='cast-name'
@@ -330,7 +330,7 @@ function Casts() {
                 />
               </div>
               <div className='input-group'>
-                <label>
+                <label className='character-n'>
                   Character Name:
                 </label>
                 <input
@@ -341,7 +341,7 @@ function Casts() {
                 />
               </div>
               <div className='input-group'>
-                <label>
+                <label className='url-text'>
                   Url:
                 </label>
                 <input className='url-text-photo'

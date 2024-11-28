@@ -44,6 +44,7 @@
 }
 
 .tabs li {
+  margin-bottom: 10px;
   font-size: 16px;
   font-weight: 600; /* Slightly bolder text */
   cursor: pointer;
