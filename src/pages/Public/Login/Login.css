@@ -1,46 +1,192 @@
 .main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url(../../../../public/vintagefilms.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+
+
+
+.form-container {
+  max-width: 500px;
+  padding: 4rem 2rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(216, 28%, 10%);
+  box-shadow: 1px 1px 10px hsl(0, 0%, 7%);
+}
+.login-header span {
+  color: hsl(27, 91%, 54%); /* Highlight the span with a vibrant color */
+  font-size: 1.2em; /* Slightly larger size for emphasis */
+  font-weight: 700; /* Bold for emphasis */
+}
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  text-align: center; /* Ensure both h1 and p are centered */
+}
+
+.login-header h1 {
+  font-size: 3em; /* Larger font size for prominence */
+  font-weight: bold;
+  color: black; /* White color for the main header */
+  margin-bottom: 0.5rem; /* Add some space between h1 and the p */
+  text-transform: uppercase; /* To give it a more dynamic look */
+  letter-spacing: 2px; /* Increase letter spacing for a more polished look */
+}
+
+.login-header p {
+  font-size: 1.2em; /* Slightly smaller font size for the description */
+  color: slategrey; /* Lighter color for the description text */
+  line-height: 1.6; /* Improve readability by adjusting line height */
+  max-width: 80%; /* Limit the width for better readability */
+  margin: 0 auto; /* Center the paragraph */
+  font-family: 'Arial', sans-serif; /* Use a clean font for description */
+}
+
+.form-container > div {
+  width: stretch; /* Fixed width to 100% instead of fill */
+  margin-bottom: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px;
+}
+
+input {
+  width: stretch; /* Fixed width to 100% instead of fill */
+  padding: 10px 20px;
+  border: 1px solid hsla(0, 0%, 49%, 0.966);
+  border-radius: 10px;
+}
+
+/* Position the eye icon properly inside the password input field */
+#icon-toggle {
+  position: absolute;
+  right: 10px; /* Place the icon to the right of the input */
+  top: 50%; /* Vertically center the icon */
+  transform: translateY(-50%); /* Adjust for exact centering */
+  cursor: pointer; /* Make the icon clickable */
+  font-size: 1.0em; /* Set font size to 1.0em */
+  color: #888; /* Set a light color for the icon */
+}
+
+#icon-toggle:hover {
+  color: hsl(27, 91%, 54%); /* Match your branding color */
+}
+
+.submit-container button {
+  width: stretch; /* Fixed width to 100% instead of fill */
+  padding: 10px 20px;
+  background-color: hsl(0, 0%, 0%);
+  border: 1px solid hsl(0, 0%, 0%);
+  border-radius: 10px;
+  color: white;
+}
+
+
+
+
+
+.form-group label {
+  width: fit-content !important;
+  color: black;
+  padding: 0px 10px;
+  position: relative;
+  left: 15px;
+  top: 15px;
+  font-size: 15px;
+  pointer-events: none;
+  transition: all 0.3s;
+  background-color: white;
+  font-weight: bold; /* Make the label text bold */
+}
+
+
+.errors {
+  color: red;
+  font-size: 12px;
+}
+
+.submit-container {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.register-container {
+  text-align: center;
+}
+
+.register-container a {
+  text-decoration: none; /* Remove underline */
+  color: orange; /* Change text color to orange */
+  font-weight: bold; /* Optional: make the text bold */
+}
+
+.register-container a:hover {
+  color: darkorange; /* Optional: change color on hover for better interactivity */
+}
+
+.show-password {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+/* Alert Box Styles */
+.alert-box {
+  position: absolute; /* Stick the alert box to the top of the screen */
+  top: 10px; /* A bit of space from the top */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
+  width: auto; /* Let it take only as much width as necessary */
+  max-width: 90%; /* Limit width for responsiveness */
+  padding: 15px 25px; /* Add padding for a more spacious feel */
+  border-radius: 10px; /* Round the corners */
+  color: white; /* Text color for both success and error messages */
+  font-size: 1.2em; /* Adjust font size for readability */
+  text-align: center; /* Center text inside the box */
+  z-index: 1000; /* Ensure it stays on top of other content */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+}
+
+/* Success Message Style */
+.alert-box.success {
+  background-color: rgb(22, 206, 22); /* Green for success */
+  border: 2px solid #1b8e1b; /* Darker green border */
+}
+
+/* Error Message Style */
+.alert-box.error {
+  background-color: rgb(255, 0, 0); /* Red for error */
+  border: 2px solid #d8000c; /* Darker red border */
+}
+
+/* Optional: For better animation on appearance */
+.alert-box {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .form-container {
-    padding: 4rem 2rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .form-container > div {
-    margin-bottom: 12px;
-  }
-  
-  .form-group {
-    display: flex;
-  }
-  
-  .form-group label {
-    width: 70px;
-    margin-right: 8px;
-    text-align: left;
-  }
-  .errors {
-    color: red;
-    font-size: 12px;
-  }
-  .submit-container {
-    margin-top: 12px;
-    text-align: center;
-  }
-  .register-container {
-    text-align: center;
-  }
-  .show-password {
-    margin-bottom: 1rem;
-    cursor: pointer;
-  }
-  
+}
