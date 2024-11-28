@@ -8,8 +8,8 @@ import Main from './pages/Main/Main';
 import Register from './pages/Public/Register/Register';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Movies from './pages/Main/Movie/Movie';
-// import MovieLists from './pages/Main/Movie/Lists/Lists';
-// import MovieForm from './pages/Main/Movie/Form/Form';
+import MovieLists from './pages/Main/Movie/Lists/Lists';
+import MovieForm from './pages/Main/Movie/Form/Form';
 // import Casts from './pages/Main/Movie/Form/Cast/Cast';
 // import Videos from './pages/Main/Movie/Form/Video/Videos';
 // import Photos from './pages/Main/Movie/Form/Photo/Photos';
@@ -49,11 +49,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/main/movies',
-            // element: <MovieLists />,
+            element: <MovieLists />,
           },
           {
             path: '/main/movies/form/:movieId?/',
-            // element: <MovieForm />,
+            element: <MovieForm />,
             children: [
               {
                 path: 'cast-and-crews/:tmdbId?',
