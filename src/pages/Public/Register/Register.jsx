@@ -1,94 +1,122 @@
-import { useState, useRef, useCallback, useEffect } from 'react'; 
+import { useState, useRef, useCallback, useEffect } from 'react';
 import './Register.css';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '../../../utils/hooks/useDebounce';
 import axios from 'axios';
 
 function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [contactNo, setContactNo] = useState('');
+  const [contactNo, setcontactNo] = useState('');
+  const [role, setRole] = useState('');
   const [isFieldsDirty, setIsFieldsDirty] = useState(false);
-  
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const firstNameRef = useRef();
   const middleNameRef = useRef();
   const lastNameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
-  
+  const contactNoRef = useRef();
+  const roleRef = useRef();
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const userInputDebounce = useDebounce({ firstName, middleName, lastName, email, password, confirmPassword, contactNo }, 2000);
+  const userInputDebounce = useDebounce({ email, password, firstName, middleName, lastName, contactNo, role }, 2000);
   const [debounceState, setDebounceState] = useState(false);
   const [status, setStatus] = useState('idle');
+
+
+  const [alertMessage, setAlertMessage] = useState('');
+  const [isError, setIsError] = useState(false);
+
 
   const navigate = useNavigate();
 
   const handleShowPassword = useCallback(() => {
     setIsShowPassword((value) => !value);
-  }, [isShowPassword]);
+  }, []);
 
   const handleOnChange = (event, type) => {
     setDebounceState(false);
     setIsFieldsDirty(true);
 
     switch (type) {
-      case 'firstName':
-        setFirstName(event.target.value);
-        break;
-      case 'middleName':
-        setMiddleName(event.target.value);
-        break;
-      case 'lastName':
-        setLastName(event.target.value);
-        break;
       case 'email':
         setEmail(event.target.value);
+
         break;
+
       case 'password':
         setPassword(event.target.value);
         break;
-      case 'confirmPassword':
-        setConfirmPassword(event.target.value);
+      
+      case 'firstName':
+        setFirstName(event.target.value);
         break;
+
+      case 'middleName':
+        setMiddleName(event.target.value);
+        break;
+
+      case 'lastName':
+        setLastName(event.target.value);
+        break;
+
+
       case 'contactNo':
-        setContactNo(event.target.value);
+        setcontactNo(event.target.value);
         break;
+
+      case 'role':
+        setRole(event.target.value);
+        break;
+
       default:
         break;
     }
   };
 
-  const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
+  let apiEndpoint;
 
-    const data = { firstName, middleName, lastName, email, password, contactNo, role: 'user' }; 
+  if (window.location.pathname.includes('/admin')) {
+    apiEndpoint = '/admin/register';
+  } else {
+    apiEndpoint = '/user/register';
+  }
+
+  const handleRegister = async () => {
+    const data = { email, password, firstName, middleName, lastName, contactNo, role };
     setStatus('loading');
     console.log(data);
 
     await axios({
       method: 'post',
-      url: '/user/register',
+      url: apiEndpoint,
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })
       .then((res) => {
         console.log(res);
+        localStorage.setItem('accessToken', res.data.access_token);
 
-        navigate('/'); 
-        setStatus('idle');
+        //show the alert message
+        setIsError(false);
+        setAlertMessage(res.data.message);
+        setTimeout(() => {
+          navigate('/');
+          setStatus('idle');
+        }, 3000);
       })
       .catch((e) => {
         console.log(e);
         setStatus('idle');
 
+        //show the alert message
+        setIsError(true);
+        setAlertMessage(e.response?.data?.message || e.message);
+        setTimeout(() => setAlertMessage(''), 3000);
+
+        //alert(e.response.data.message);
       });
   };
 
@@ -99,138 +127,108 @@ function Register() {
   return (
     <div className='Register'>
       <div className='main-container'>
-        <h3>Register</h3>
+        {alertMessage && (<div className={`alert-box ${isError ? 'error' : 'success'}`}>{alertMessage}</div>)}
         <form>
           <div className='form-container'>
-            <div className='form-group'>
-              <label>First Name:</label>
-              <input
-                type='text'
-                name='firstName'
-                ref={firstNameRef}
-                onChange={(e) => handleOnChange(e, 'firstName')}
-              />
+            <div className='register-header'>
+            <h1>Welcome to <span>NetMovies+</span></h1>
+            <p>NetMovies+ is the streaming home for movies and series from Disney, Marvel, Star Wars, and Star.</p>
             </div>
-            {debounceState && isFieldsDirty && firstName === '' && (
-              <span className='errors'>This field is required</span>
-            )}
+            <div>
 
-            <div className='form-group'>
-              <label>Middle Name:</label>
-              <input
-                type='text'
-                name='middleName'
-                ref={middleNameRef}
-                onChange={(e) => handleOnChange(e, 'middleName')}
-              />
-            </div>
+              <div>
+                <div className='form-group'>
+                  <label>First Name:</label>
+                  <input type='text' name='firstName' ref={firstNameRef} onChange={(e) => handleOnChange(e, 'firstName')} required/>
+                </div>
+                {debounceState && isFieldsDirty && firstName === '' && (
+                  <span className='errors'>This field is required</span>
+                )}
+              </div>
 
-            <div className='form-group'>
-              <label>Last Name:</label>
-              <input
-                type='text'
-                name='lastName'
-                ref={lastNameRef}
-                onChange={(e) => handleOnChange(e, 'lastName')}
-              />
-            </div>
+              <div>
+                <div className='form-group'>
+                  <label>Middle Name:</label>
+                  <input type='text' name='middleName' ref={middleNameRef} onChange={(e) => handleOnChange(e, 'middleName')} required/>
+                </div>
+                {debounceState && isFieldsDirty && middleName === '' && (
+                  <span className='errors'>This field is required</span>
+                )}
+              </div>
 
-            <div className='form-group'>
-              <label>E-mail:</label>
-              <input
-                type='text'
-                name='email'
-                ref={emailRef}
-                onChange={(e) => handleOnChange(e, 'email')}
-              />
-            </div>
-            {debounceState && isFieldsDirty && email === '' && (
-              <span className='errors'>This field is required</span>
-            )}
+              <div>
+                <div className='form-group'>
+                  <label>Last Name:</label>
+                  <input type='text' name='lastName' ref={lastNameRef} onChange={(e) => handleOnChange(e, 'lastName')} required/>
+                </div>
+                {debounceState && isFieldsDirty && lastName === '' && (
+                  <span className='errors'>This field is required</span>
+                )}
+              </div>
 
-            <div className='form-group'>
-              <label>Password:</label>
-              <input
-                type={isShowPassword ? 'text' : 'password'}
-                name='password'
-                ref={passwordRef}
-                onChange={(e) => handleOnChange(e, 'password')}
-              />
-            </div>
-            {debounceState && isFieldsDirty && password === '' && (
-              <span className='errors'>This field is required</span>
-            )}
+                <div>
+                  <div className='form-group'>
+                    <label>Contact Number:</label>
+                    <input type='text' name='contactNo' ref={contactNoRef} onChange={(e) => handleOnChange(e, 'contactNo')} required/>
+                  </div>
+                  {debounceState && isFieldsDirty && contactNo === '' && (
+                    <span className='errors'>This field is required</span>
+                  )}
+                </div>
 
-            <div className='form-group'>
-              <label>Confirm Password:</label>
-              <input
-                type={isShowPassword ? 'text' : 'password'}
-                name='confirmPassword'
-                ref={confirmPasswordRef}
-                onChange={(e) => handleOnChange(e, 'confirmPassword')}
-              />
-            </div>
-            {debounceState && isFieldsDirty && confirmPassword === '' && (
-              <span className='errors'>This field is required</span>
-            )}
+              <div>
+                <div className='form-group'>
+                  <label>Email:</label>
+                  <input type='text' name='email' ref={emailRef} onChange={(e) => handleOnChange(e, 'email')} required/>
+                  </div>
+                  {debounceState && isFieldsDirty && email === '' && (
+                    <span className='errors'>This field is required</span>
+                  )}
+                </div>
+                <div>
+                  <div className='form-group'>
+                    <label>Password:</label>
+                    <div>
+                      <input type={isShowPassword ? 'text' : 'password'} name='password' ref={passwordRef} onChange={(e) => handleOnChange(e, 'password')} />
+                      <span className={`fas ${isShowPassword ? 'fa-eye-slash' : 'fa-eye'}` } id='icon-toggle' onClick={handleShowPassword} />
+                    </div>
+                  </div>
+                  {debounceState && isFieldsDirty && password === '' && (
+                    <span className='errors'>This field is required</span>
+                  )}
+                </div>
+              </div>
 
-            <div className='form-group'>
-              <label>Contact Number:</label>
-              <input
-                type='text'
-                name='contactNo'
-                ref={confirmPasswordRef}
-                onChange={(e) => handleOnChange(e, 'contactNo')}
-              />
-            </div>
-
-            <div className='show-password' onClick={handleShowPassword}>
-              {isShowPassword ? 'Hide' : 'Show'} Password
-            </div>
-
-            <div className='submit-container'>
-              <button
-                type='button'
-                disabled={status === 'loading'}
-                onClick={() => {
-                  if (status === 'loading') {
-                    return;
-                  }
-                  if (firstName && middleName && lastName && email && password && confirmPassword && contactNo) {
-                    handleRegister();
-                  } else {
-                    setIsFieldsDirty(true);
-                    if (firstName === '') {
-                      firstNameRef.current.focus();
+              <div className='submit-container'>
+                <button
+                  type='button'
+                  disabled={status === 'loading'}
+                  onClick={() => {
+                    if (status === 'loading') {
+                      return;
                     }
-                    if (middleName === '') {
-                      middleNameRef.current.focus();
+                    if (email && password && firstName && middleName && contactNo) {
+                      handleRegister({
+                        type: 'register',
+                        user: { email, password, firstName,middleName,lastName,contactNo,role },
+                      });
+                    } else {
+                      setIsFieldsDirty(true);
+                      if (email === '') {
+                        emailRef.current.focus();
+                      }
+
+                      if (password === '') {
+                        passwordRef.current.focus();
+                      }
                     }
-                    if (lastName === '') {
-                      lastNameRef.current.focus();
-                    }
-                    if (email === '') {
-                      emailRef.current.focus();
-                    }
-                    if (password === '') {
-                      passwordRef.current.focus();
-                    }
-                    if (confirmPassword === '') {
-                      confirmPasswordRef.current.focus();
-                    }
-                    if (contactNo === '') {
-                      confirmPasswordRef.current.focus();
-                    }
-                  }
-                }}
-              >
-                {status === 'idle' ? 'Register' : 'Loading'}
-              </button>
-            </div>
-            <div className='login-container'>
-              <a href='/'>
-                <small>Login</small>
-              </a>
+                  }}
+                >
+                  {status === 'idle' ? 'Register' : 'Loading'}
+                </button>
+              </div>
+              <div className='register-container'>
+                <span><small>Already have an account? <a href='/'>Login</a></small></span>
             </div>
           </div>
         </form>
@@ -238,5 +236,9 @@ function Register() {
     </div>
   );
 }
+
+
+
+
 
 export default Register;
