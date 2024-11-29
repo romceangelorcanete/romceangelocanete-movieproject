@@ -39,7 +39,7 @@
 
 .movie-lists th,
 .movie-lists td {
-    border: 1px solid #dee2e6; /* Light gray border */
+    border: 1px solid #000000; /* Light gray border */
     padding: 0.75rem; /* Padding for cells */
     color: black;
 }
