@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useCallback, useRef } from 'rea
 import { AuthContext } from "../../../../../context/context";
 import './Photos.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
 
@@ -14,6 +14,8 @@ function Photos() {
   const [photos, setPhotos] = useState([]);
   const [selectedphoto, setSelectedPhoto] = useState({});
   let { movieId } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+
 
   const getAll = useCallback((movieId) => {
     axios({
@@ -35,6 +37,16 @@ function Photos() {
   useEffect(() => {
     getAll(movieId);
   }, [movieId, getAll]);
+
+  const openModal = (photo) => {
+    setSelectedPhoto(photo);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   const validateField = (fieldRef, fieldName) => {
     if (!fieldRef.current.value.trim()) {
@@ -192,7 +204,9 @@ function Photos() {
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                 </div>
-                <img src={image.url} alt={image.description} style={{ width: '100%' }} className='image-style' />
+                <img src={image.url} alt={image.description} style={{ width: '100%' }} className='image-style' 
+                onClick={() => openModal(image)} // Open modal on click
+                />
                 <div className='container-photo'>
                   <p>{image.description}</p>
                 </div>
@@ -205,6 +219,21 @@ function Photos() {
           </div>
         )}
       </div>
+
+      {/* Modal for Full-Screen View */}
+      {isModalOpen && (
+        <div className='modal-overlay' onClick={closeModal}>
+          <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+          <button className='close-modal' onClick={closeModal}>
+          <FontAwesomeIcon icon={faTimes} />
+          </button>
+            <img src={selectedphoto.url} alt={selectedphoto.description} className='modal-image' />
+            <p className='modal-description'>{selectedphoto.description}</p>
+          </div>
+        </div>
+      )}
+      
+      
       <div className='Photo-Search-Box'>
         <div className='parent-container'>
           <div className='photo-detail-box'>
