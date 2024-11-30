@@ -288,7 +288,9 @@ label {
   max-width: 800px;
   width: 90%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  overflow: hidden; /* Ensures clean layout */
+  display: flex;
+  flex-direction: column; /* Ensures content stacks vertically */
+  gap: 20px; /* Space between image and description */
 }
 
 /* Close Button */
@@ -317,10 +319,12 @@ label {
 
 /* Modal Image Section */
 .modal-image {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 20px; /* Space between image and description */
+  display: block;
+  max-width: 100%; /* Image does not exceed modal width */
+  max-height: 50vh; /* Adjust for viewport height */
+  object-fit: contain; /* Maintains aspect ratio */
   border-radius: 8px;
+  margin: auto; /* Center the image */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
@@ -330,8 +334,8 @@ label {
   color: #333;
   text-align: justify;
   line-height: 1.6;
-  max-height: 200px; /* Restrict height for long text */
-  overflow-y: scroll;
+  max-height: 25vh; /* Restricts the description height */
+  overflow-y: auto; /* Allows vertical scrolling for overflow text */
   padding: 15px;
   background-color: #f7f7f7;
   border-radius: 8px;
@@ -341,12 +345,12 @@ label {
 
 /* Vertical Scrollbar */
 .modal-description::-webkit-scrollbar {
-  width: 4px; /* Slim vertical line */
+  width: 6px; /* Slim vertical line */
 }
 
 .modal-description::-webkit-scrollbar-thumb {
   background-color: #ccc; /* Grey thumb */
-  border-radius: 2px; /* Rounded edges */
+  border-radius: 3px; /* Rounded edges */
 }
 
 .modal-description::-webkit-scrollbar-thumb:hover {
