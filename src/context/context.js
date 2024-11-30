@@ -7,17 +7,25 @@ export const AuthProvider = ({ children }) => {
     accessToken: localStorage.getItem('accessToken') || null,
     user: JSON.parse(localStorage.getItem('user')) || null,
   });
-
+  
   const setAuthData = (data) => {
     setAuth({
       accessToken: data.accessToken,
       user: data.user,
     });
 
+    const role = data.user?.role; // added role
+
+
     // Save to localStorage for persistence
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    localStorage.setItem('tab', JSON.stringify('cast'));
+    if (role === 'admin') {
+      localStorage.setItem('tab', JSON.stringify('cast'));
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    } else {
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }
   };
 
   const [movie, setMovie] = useState(null);
