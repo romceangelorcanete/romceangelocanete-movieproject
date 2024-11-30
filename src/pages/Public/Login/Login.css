@@ -7,21 +7,14 @@
   background-image: url(../../../../public/vintagefilms.jpg);
   background-size: cover;
   background-position: center;
-  z-index: -1;
 }
 
-
-
-
 .form-container {
+  flex-wrap: wrap; /* Allow wrapping */
+  gap: 1rem; /* Add spacing between items */
   max-width: 500px;
-  padding: 4rem 2rem;
-  border: 1px solid #ccc;
+  padding: 2rem;
   border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: hsl(216, 28%, 10%);
   box-shadow: 1px 1px 10px hsl(0, 0%, 7%);
 }
@@ -39,16 +32,18 @@
 }
 
 .login-header h1 {
-  font-size: 3em; /* Larger font size for prominence */
+  font-size: 2.5em; /* Larger font size for prominence */
   font-weight: bold;
   color: black; /* White color for the main header */
+  text-align: center;
   margin-bottom: 0.5rem; /* Add some space between h1 and the p */
   text-transform: uppercase; /* To give it a more dynamic look */
   letter-spacing: 2px; /* Increase letter spacing for a more polished look */
 }
 
 .login-header p {
-  font-size: 1.2em; /* Slightly smaller font size for the description */
+  text-align: center;
+  font-size: 1.1em; /* Slightly smaller font size for the description */
   color: slategrey; /* Lighter color for the description text */
   line-height: 1.6; /* Improve readability by adjusting line height */
   max-width: 80%; /* Limit the width for better readability */
@@ -62,26 +57,31 @@
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column; 
+  margin-bottom: 1rem;
   gap: 10px;
 }
 
+input, .submit-container button {
+  width: 100%; /* Make inputs and buttons span full width */
+}
+
 input {
-  width: stretch; /* Fixed width to 100% instead of fill */
-  padding: 10px 20px;
+  width: 100%;
+  padding: 10px;
   border: 1px solid hsla(0, 0%, 49%, 0.966);
   border-radius: 10px;
 }
 
 /* Position the eye icon properly inside the password input field */
 #icon-toggle {
+  padding: 5px; /* Add padding for touch-friendly interaction */
+  font-size: 1.2em; /* Slightly larger size */
   position: absolute;
   right: 10px; /* Place the icon to the right of the input */
   top: 50%; /* Vertically center the icon */
   transform: translateY(-50%); /* Adjust for exact centering */
   cursor: pointer; /* Make the icon clickable */
-  font-size: 1.0em; /* Set font size to 1.0em */
+  font-size: 1em; /* Set font size to 1.0em */
   color: #888; /* Set a light color for the icon */
 }
 
@@ -90,8 +90,9 @@ input {
 }
 
 .submit-container button {
-  width: stretch; /* Fixed width to 100% instead of fill */
-  padding: 10px 20px;
+  margin-top: 15px;
+  width: 100%; /* Fixed width to 100% instead of fill */
+  padding: 10px;
   background-color: hsl(0, 0%, 0%);
   border: 1px solid hsl(0, 0%, 0%);
   border-radius: 10px;
@@ -120,6 +121,7 @@ input {
 .errors {
   color: red;
   font-size: 12px;
+  margin-top: 5px;
 }
 
 .submit-container {
@@ -148,6 +150,7 @@ input {
 
 /* Alert Box Styles */
 .alert-box {
+  animation: fadeIn 0.3s ease-out; /* Reduce animation time */
   position: absolute; /* Stick the alert box to the top of the screen */
   top: 10px; /* A bit of space from the top */
   left: 50%; /* Center horizontally */
@@ -165,13 +168,13 @@ input {
 
 /* Success Message Style */
 .alert-box.success {
-  background-color: rgb(22, 206, 22); /* Green for success */
+  background-color: green;
   border: 2px solid #1b8e1b; /* Darker green border */
 }
 
 /* Error Message Style */
 .alert-box.error {
-  background-color: rgb(255, 0, 0); /* Red for error */
+  background-color: red;
   border: 2px solid #d8000c; /* Darker red border */
 }
 
@@ -183,10 +186,55 @@ input {
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-10px); /* Smaller movement */
   }
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem;
+    height: auto; /* Adjust height for smaller screens */
+  }
+
+  .form-container {
+    padding: 2rem 1rem; /* Reduce padding */
+    max-width: 90%; /* Adjust the container width */
+  }
+
+  .login-header h1 {
+    font-size: 2em; /* Decrease font size */
+  }
+
+  .login-header p {
+    font-size: 1em;
+  }
+
+  input {
+    padding: 8px 12px; /* Reduce padding for inputs */
+  }
+
+  .submit-container button {
+    padding: 8px 12px; /* Smaller button padding */
+  }
+
+  .alert-box {
+    font-size: 1em; /* Adjust font size for smaller screens */
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-header h1 {
+    font-size: 1.8em; /* Further decrease font size */
+  }
+
+  .login-header p {
+    font-size: 0.9em; /* Smaller paragraph text */
   }
 }
