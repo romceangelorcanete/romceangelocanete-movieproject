@@ -117,7 +117,7 @@ function Login() {
                 onChange={(e) => handleOnChange(e, "email")}
               />
               {debounceState && isFieldsDirty && email === "" && (
-                <span className="errors">This field is required</span>
+                <span className="errors">Please enter a valid email.</span>
               )}
             </div>
 
@@ -139,7 +139,7 @@ function Login() {
                 />
               </div>
               {debounceState && isFieldsDirty && password === "" && (
-                <span className="errors">This field is required</span>
+                <span className="errors">Your password must contain between 4 and 60 characters.</span>
               )}
             </div>
 
