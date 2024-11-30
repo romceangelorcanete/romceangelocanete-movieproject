@@ -393,3 +393,7 @@ label {
   background-color: #e3342f;
   transform: scale(1.05);
 }
+
+img.photo-img{
+  height: 400px;
+}
