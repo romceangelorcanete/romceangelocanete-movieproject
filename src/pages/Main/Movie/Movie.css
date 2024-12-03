@@ -1,4 +1,5 @@
 .movies-header-container{
+    margin-bottom: 10px;
     border-bottom: 2px solid hsl(0, 0%, 100%);
 }
 

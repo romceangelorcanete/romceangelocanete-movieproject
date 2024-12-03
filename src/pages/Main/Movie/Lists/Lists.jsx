@@ -1,47 +1,52 @@
 import { useNavigate } from 'react-router-dom';
 import './Lists.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useContext, useCallback } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'; // Import the icons
-// import { AuthContext } from '../../../context/context'; // Corrected import
+import { AuthContext } from '../../../../context/context'; // Corrected import
 
 
 const Lists = () => {
-  const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
-  
-  const [lists, setLists] = useState([]);
+  const { lists } = useContext(AuthContext);
+  const { setListDataMovie } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
-  const getMovies = () => {
-    // Get the movies from the API or database
-    axios.get('/movies').then((response) => {
-      setLists(response.data);
-    });
-  };
+  const getMovies = useCallback(() => {
+      // Get the movies from the API or database
+      axios.get('/movies').then((response) => {
+          setListDataMovie(response.data);
+      });
+  }, [setListDataMovie]);
 
   useEffect(() => {
-    getMovies();
-  }, []);
+      getMovies();
+  }, [getMovies]);
 
   const handleDelete = (id) => {
-    const isConfirm = window.confirm('Are you sure that you want to delete this data?');
-    if (isConfirm) {
-      axios
-        .delete(`/movies/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then(() => {
-          const tempLists = [...lists];
-          const index = lists.findIndex((movie) => movie.id === id);
-          if (index !== undefined || index !== -1) {
-            tempLists.splice(index, 1);
-            setLists(tempLists);
-          }
-        });
-    }
+      const isConfirm = window.confirm(
+          'Are you sure that you want to delete this Movie including the casts, photos and videos on it?'
+      );
+      if (isConfirm) {
+          axios
+              .delete(`/movies/${id}`, {
+                  headers: {
+                      Authorization: `Bearer ${auth.accessToken}`,
+                  },
+              })
+              .then(() => {
+                  // Update list by modifying the movie list array
+                  const tempLists = [...lists];
+                  const index = lists.findIndex((movie) => movie.id === id);
+                  if (index !== undefined || index !== -1) {
+                      tempLists.splice(index, 1);
+                      setListDataMovie(tempLists);
+                  }
+              }).catch((err) => {
+                  console.log(err);
+              });
+      }
   };
 
   return (
@@ -64,6 +69,7 @@ const Lists = () => {
               <th>No.</th>
               <th>ID</th>
               <th>Title</th>
+              <th>TMDBID</th>
               <th>Popularity</th>
               <th>Release Date</th>
               <th>Actions</th>
@@ -75,6 +81,7 @@ const Lists = () => {
                 <td>{index + 1}</td>
                 <td>{movie.id}</td>
                 <td>{movie.title}</td>
+                <td>{movie.tmdbId}</td>
                 <td>{movie.popularity}</td>
                 <td>{movie.releaseDate}</td>
                 <td>
@@ -83,8 +90,12 @@ const Lists = () => {
                     type="button"
                     style={{ width: '30%' }}
                     onClick={() => {
-                      navigate('/main/movies/form/' + movie.id);
-                    }}
+                      navigate(
+                          '/main/movies/form/' +
+                          movie.id +
+                          '/cast-and-crews/' + movie.tmdbId
+                      );
+                  }}
                   >
                     <FontAwesomeIcon icon={faEdit} style={{ marginRight: '8px' }} /> Edit
                   </button>

@@ -1,4 +1,4 @@
-.main-container {
+.m-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +15,7 @@
 /* Glowing effect for form-container with faster pulse animation */
 .form-container {
   max-width: 500px;
-  width: 100%; /* Ensure form adapts to screen width */
+  width: 90%; /* Ensure responsiveness */
   padding: 2rem; /* Maintain decent padding for desktop */
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -106,7 +106,7 @@ input {
   top: 10px;
   right: 10px;
   float: right;
-  margin-top: -28px;
+  margin-top: -35px;
   margin-right: 10px;
   position: relative;
   z-index: 10; /* Ensure it stays on top */
@@ -159,7 +159,7 @@ button {
 
 
 /* Error message styling */
-.errors {
+.errors1 {
   color: red;
   font-size: 12px;
   margin-top: 5px;
@@ -238,7 +238,7 @@ button {
 
 /* If you have something like: */
 .element {
-  width: strech;
+  width: 100%;
 }
 
 /* Update it to: */
@@ -255,23 +255,23 @@ button {
   }
 
   .register-header h1 {
-    font-size: 1.5rem; /* Smaller title on mobile */
+    font-size: 1.8rem; /* Smaller title on mobile */
   }
 
   .register-header p {
-    font-size: 12px; /* Smaller description text */
+    font-size: 0.9rem;
   }
 
   input {
-    padding: 8px 10px; /* Adjust padding for smaller screens */
+    padding: 8px 12px;
   }
 
   button {
-    padding: 8px 10px; /* Adjust button size */
+    padding: 8px 12px; /* Adjust button size */
   }
 
   .alert-box {
-    font-size: 14px; /* Smaller font for alerts */
+    font-size: 0.9rem;
   }
 
   .icon-toggle {
@@ -283,19 +283,20 @@ button {
   .form-container {
     padding: 0.8rem; /* Further reduce padding */
     border-radius: 10px; /* Smaller border radius */
+    width: 95%; /* Take up more screen width */
   }
 
   .register-header h1 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
   .register-header p {
-    font-size: 11px;
+    font-size: 0.8rem;
   }
 
   input,
   button {
-    padding: 6px 8px; /* Further adjust padding */
+    padding: 6px 10px;
   }
 
   .icon-toggle {

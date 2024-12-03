@@ -48,6 +48,48 @@ function Photos() {
   };
 
 
+  //This used for Importing Photos based on tmdbId from Movie
+  function importDataPhoto() {
+    axios({
+      method: 'get',
+      url: `https://api.themoviedb.org/3/movie/${movieId}/images`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZjcwNmYyZDQwMDA0ZTUwYzhmOGUwZDg4MWNjMzMzMCIsIm5iZiI6MTcyOTMxMjYyNi4wMSwic3ViIjoiNjcxMzM3NzI2NTAyNDhiOWRiNjFkNzM4Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.VZcreJYYoRCCaykTDCYoois31PY6f9grTjN1ifvV1yg', // Make sure to replace this with your actual API key
+      },
+    }).then((response) => {
+      setSavePhotosImp(response.data.backdrops);
+      alert(`Total of ${response.data.backdrops.length} Photos are now Imported to Database`);
+      setTimeout(() => {
+        getAll(movieId);
+      }, 2000);
+    })
+  }
+
+  //Saving all Photo Imported to Database
+  async function setSavePhotosImp(photoImportData) {
+    await Promise.all(photoImportData.map(async (datainfo) => {
+      const dataphoto = {
+        userId: auth.user.userId,
+        movieId: movieId,
+        description: `Photos`,
+        url: `https://image.tmdb.org/t/p/w500/${datainfo.file_path}`,
+      };
+      console.log('Transfering import to Database', dataphoto);
+      try {
+        await axios.post('/admin/photos', dataphoto, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error of Importing:', error);
+      }
+    }));
+    console.log('Imported Success');
+  }
+
   const validateField = (fieldRef, fieldName) => {
     if (!fieldRef.current.value.trim()) {
       fieldRef.current.style.border = '2px solid red';
@@ -59,6 +101,8 @@ function Photos() {
     }
     return true;
   }
+
+  
 
   const handlesave = async () => {
 
@@ -283,6 +327,15 @@ function Photos() {
                 >
                   Save
                 </button>
+                <div>
+                  <button
+                    className='import-photos-button'
+                    type='import-photos-button'
+                    onClick={importDataPhoto}
+                  >
+                    Import All Photos
+                  </button>
+                </div>
               </>
             ) : (
               <>

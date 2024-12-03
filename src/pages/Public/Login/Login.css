@@ -1,4 +1,4 @@
-.main-container {
+.m-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,7 +56,7 @@
   margin-bottom: 12px;
 }
 
-.form-group {
+.form-group1 {
   margin-bottom: 1rem;
   gap: 10px;
 }
@@ -103,7 +103,8 @@ input {
 
 
 
-.form-group label {
+.form-group1 label {
+  border-radius: 10px;
   width: fit-content !important;
   color: black;
   padding: 0px 10px;
@@ -197,7 +198,7 @@ input {
 
 
 @media (max-width: 768px) {
-  .main-container {
+  .m-container {
     padding: 1rem;
     height: auto; /* Adjust height for smaller screens */
   }

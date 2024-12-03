@@ -1,23 +1,17 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-  useRef,
-} from "react";
-import { AuthContext } from "../../../../../context/context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import "./Videos.css";
+import React, { useEffect, useState, useContext, useCallback, useRef } from 'react';
+import { AuthContext } from '../../../../../context/context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios'
+import { useParams } from 'react-router-dom';
+import './Videos.css'
 
 function VideoForm() {
   const { auth } = useContext(AuthContext);
   const [videoId, setVideoId] = useState(undefined);
-  const [videoURL, setVideoURL] = useState("");
+  const [videoURL, setVideoURL] = useState('');
   const [videos, setVideos] = useState([]);
-  const [videokey, setVideoKey] = useState({});
+  const [videokey, setVideoKey] = useState({})
   const [selectedvideo, setSelectedVideo] = useState({});
   const urlRef = useRef();
   const nameRef = useRef();
@@ -25,35 +19,31 @@ function VideoForm() {
   const videoTypeRef = useRef();
   let { movieId } = useParams();
 
-  const getAll = useCallback(
-    (movieId) => {
-      axios({
-        method: "get",
-        url: `/movies/${movieId}`,
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
+  const getAll = useCallback((movieId) => {
+    axios({
+      method: 'get',
+      url: `/movies/${movieId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => {
+        setVideos(response.data.videos);
       })
-        .then((response) => {
-          setVideos(response.data.videos);
-        })
-        .catch((error) => {
-          console.error("Error fetching Videos:", error.response.data);
-        });
-    },
-    [auth.accessToken]
-  );
+      .catch((error) => {
+        console.error("Error fetching Videos:", error.response.data);
+      });
+  }, [auth.accessToken])
 
   const getYouTubeVideoID = (url) => {
-    if (!url || typeof url !== "string") {
+    if (!url || typeof url !== 'string') {
       console.log("Invalid URL:", url);
-      setVideoKey("");
+      setVideoKey('');
       return null;
     }
 
-    const regex =
-      /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/)([\w-]+))/i;
+    const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/)([\w-]+))/i;
     const match = url.match(regex);
     console.log("URL:", url);
     console.log("Match:", match);
@@ -62,7 +52,7 @@ function VideoForm() {
       setVideoKey(match[1]);
       return match[1];
     } else {
-      setVideoKey("");
+      setVideoKey('');
       return null;
     }
   };
@@ -74,9 +64,9 @@ function VideoForm() {
     }
 
     if (!fieldRef.current.value.trim()) {
-      fieldRef.current.style.border = "2px solid red";
+      fieldRef.current.style.border = '2px solid red';
       setTimeout(() => {
-        fieldRef.current.style.border = "1px solid #ccc";
+        fieldRef.current.style.border = '1px solid #ccc';
       }, 2000);
       console.log(`${fieldName} cannot be empty.`);
       return false;
@@ -84,6 +74,52 @@ function VideoForm() {
 
     return true;
   };
+
+  //This used for Importing Videos based on tmdbId from Movie
+  function importDataVideo() {
+    axios({
+      method: 'get',
+      url: `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZjcwNmYyZDQwMDA0ZTUwYzhmOGUwZDg4MWNjMzMzMCIsIm5iZiI6MTcyOTMxMjYyNi4wMSwic3ViIjoiNjcxMzM3NzI2NTAyNDhiOWRiNjFkNzM4Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.VZcreJYYoRCCaykTDCYoois31PY6f9grTjN1ifvV1yg', // Make sure to replace this with your actual API key
+      },
+    }).then((response) => {
+      setSavePhotosImp(response.data.results);
+      alert(`Total of ${response.data.results.length} Videos are now Imported to Database`);
+      setTimeout(() => {
+        getAll(movieId);
+      }, 2000);
+    })
+  }
+
+  //Saving all Video Imported to Database
+  async function setSavePhotosImp(vidoeImportData) {
+    await Promise.all(vidoeImportData.map(async (datainfo) => {
+      const datavideo = {
+        userId: auth.user.userId,
+        movieId: movieId,
+        url: `https://www.youtube.com/embed/${datainfo.key}`,
+        videoKey: datainfo.key,
+        name: datainfo.name,
+        site: datainfo.site,
+        videoType: datainfo.type,
+        official: datainfo.official,
+      };
+      console.log('Transfering import to Database', datavideo);
+      try {
+        await axios.post('/admin/videos', datavideo, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error of Importing:', error);
+      }
+    }));
+    console.log('Imported Videos Success');
+  }
 
   const handlesave = async () => {
     const dataphoto = {
@@ -95,20 +131,20 @@ function VideoForm() {
       site: selectedvideo.site,
       videoType: selectedvideo.videoType,
       official: selectedvideo.official,
-    };
-    console.table(dataphoto);
+    }
+    console.table(dataphoto)
     const validateFields = () => {
       const isUrlValid = validateField(urlRef, "YouTube Link");
 
       if (isUrlValid) {
         const videoKey = getYouTubeVideoID(urlRef.current.value);
         if (!videoKey) {
-          urlRef.current.style.border = "2px solid red";
+          urlRef.current.style.border = '2px solid red';
           setTimeout(() => {
-            urlRef.current.style.border = "1px solid #ccc";
+            urlRef.current.style.border = '1px solid #ccc';
           }, 2000);
           console.log("Invalid YouTube link. Please enter a valid URL.");
-          alert("Invalid YouTube link. Please enter a valid URL.");
+          alert("Invalid YouTube link. Please enter a valid URL.")
           return false;
         }
       }
@@ -119,6 +155,8 @@ function VideoForm() {
 
       return isUrlValid && isNameValid && isSiteValid && isVideoTypeValid;
     };
+
+
     if (!validateFields()) {
       return; // This is for stop if any valid is null
     } else {
@@ -132,28 +170,25 @@ function VideoForm() {
           site: selectedvideo.site,
           videoType: selectedvideo.videoType,
           official: selectedvideo.official,
-        };
+        }
         await axios({
-          method: "POST",
-          url: "/admin/videos",
+          method: 'POST',
+          url: '/admin/videos',
           data: dataphoto,
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
-          },
+          }
         });
-        alert("Added Success");
+        alert('Added Success');
         getAll(movieId);
         setSelectedVideo([]);
-        setVideoURL("");
-        setVideoKey("");
+        setVideoURL('')
+        setVideoKey('')
         getYouTubeVideoID(null);
-        urlRef.current.value = "";
+        urlRef.current.value = '';
       } catch (error) {
-        console.log(
-          "Error Saving Video",
-          error.response?.data || error.message
-        );
-        alert(`Incorrect Link or Error: ${error.message}`);
+        console.log("Error Saving Video", error.response?.data || error.message);
+        alert(`Incorrect Link or Error: ${error.message}`)
       }
     }
   };
@@ -163,14 +198,12 @@ function VideoForm() {
   }, [movieId, getAll]);
 
   const handledelete = async (id) => {
-    const isConfirm = window.confirm(
-      "Are you sure you want to delete this Video?"
-    );
+    const isConfirm = window.confirm("Are you sure you want to delete this Video?");
 
     if (isConfirm) {
       try {
         const response = await axios({
-          method: "delete",
+          method: 'delete',
           url: `/videos/${id}`,
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
@@ -188,43 +221,44 @@ function VideoForm() {
 
   const videoget = async (id) => {
     axios({
-      method: "get",
+      method: 'get',
       url: `/videos/${id}`,
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${auth.accessToken}`,
       },
     })
       .then((response) => {
         setSelectedVideo(response.data);
-        setVideoId(response.data.id);
+        setVideoId(response.data.id)
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       });
-  };
+  }
 
   const handleclear = useCallback(() => {
     setSelectedVideo([]);
     setVideoId(undefined);
-    setVideoKey("");
-    setVideoURL("");
-    urlRef.current.value = "";
+    setVideoKey('');
+    setVideoURL('');
+    urlRef.current.value = '';
   }, [setSelectedVideo, setVideoId, setVideoKey, setVideoURL]);
 
   const videoUpdate = async (id) => {
+
     const validateFields = () => {
       const isUrlValid = validateField(urlRef, "YouTube Link");
 
       if (isUrlValid) {
         const videoKey = getYouTubeVideoID(urlRef.current.value);
         if (!videoKey) {
-          urlRef.current.style.border = "2px solid red";
+          urlRef.current.style.border = '2px solid red';
           setTimeout(() => {
-            urlRef.current.style.border = "1px solid #ccc";
+            urlRef.current.style.border = '1px solid #ccc';
           }, 2000);
           console.log("Invalid YouTube link. Please enter a valid URL.");
-          alert("Invalid YouTube link. Please enter a valid URL.");
+          alert("Invalid YouTube link. Please enter a valid URL.")
           return false;
         }
       }
@@ -239,20 +273,18 @@ function VideoForm() {
     if (!validateFields()) {
       return; // This is for stop if any valid is null
     } else {
-      const isConfirm = window.confirm(
-        "Are you sure you want to update the Video?"
-      );
+      const isConfirm = window.confirm("Are you sure you want to update the Video?");
       if (isConfirm) {
         const data = {
           ...(videokey
             ? {
-                url: `https://www.youtube.com/embed/${videokey}`,
-                videoKey: videokey,
-              }
+              url: `https://www.youtube.com/embed/${videokey}`,
+              videoKey: videokey,
+            }
             : {
-                url: selectedvideo.url,
-                videoKey: selectedvideo.videoKey,
-              }),
+              url: selectedvideo.url,
+              videoKey: selectedvideo.videoKey,
+            }),
           name: selectedvideo.name,
           site: selectedvideo.site,
           videoType: selectedvideo.videoType,
@@ -260,96 +292,95 @@ function VideoForm() {
         };
         try {
           const response = await axios({
-            method: "patch",
+            method: 'patch',
             url: `/videos/${id}`,
             data: data,
             headers: {
-              Accept: "application/json",
+              Accept: 'application/json',
               Authorization: `Bearer ${auth.accessToken}`,
             },
           });
-          alert("updated Successfully!");
+          alert('Updated Successfully');
           console.log(response.message);
           handleclear();
-          getAll(movieId);
+          getAll(movieId)
         } catch (error) {
-          console.error(
-            "Error updating cast:",
-            error.response?.data || error.message
-          );
+          console.error("Error updating cast:", error.response?.data || error.message);
         }
       }
     }
-  };
+  }
 
   return (
-    <div className="video-box">
-      <div className="Video-View-Box">
+    <div className='video-box'>
+      <div className='Video-View-Box'>
         {videos !== undefined && videos.length > 0 ? (
-          <div className="card-display-videos">
+          <div className='card-display-videos'>
             {videos.map((items) => (
-              <div key={items.id} className="card-video">
-                <div className="buttons-group">
+              <div key={items.id} className='card-video'>
+                <div className='buttons-group'>
                   <button
-                    type="button"
-                    className="delete-button"
+                    type='button'
+                    className='delete-button'
                     onClick={() => handledelete(items.id)}
                   >
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </button>
                   <button
-                    type="button"
-                    className="edit-button"
+                    type='button'
+                    className='edit-button'
                     onClick={() => videoget(items.id)}
                   >
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                 </div>
                 <iframe
-                  className="video-style"
+                  className='video-style'
                   width="100%"
-                  height="50%"
                   src={`https://www.youtube.com/embed/${items.videoKey}`}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  title="display-video-view"
+                  title='display-video-view'
                 ></iframe>
-                <div className="container-video">
+                <div className='container-video'>
                   <p>{items.name}</p>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="no-videos">
+          <div className='no-videos'>
             <h3>Videos not Found</h3>
           </div>
         )}
       </div>
-      <div className="Video-Search-Box">
-        <div className="parent-container">
-          <div className="video-detail-box">
-            <div className="video-container-center">
-              <div className="video-frame-container">
+      <div className='Video-Search-Box'>
+        <div className='parent-container'>
+          <div className='video-detail-box'>
+            <div className='video-container-center'>
+              <div className='video-frame-container'>
                 <iframe
-                  title="display-video-save"
-                  className="video-frame"
+                  title='display-video-save'
+                  className='video-frame'
                   src={
                     selectedvideo.url
                       ? selectedvideo.url
                       : videokey
-                      ? `https://www.youtube.com/embed/${videokey}`
-                      : "https://www.youtube.com/embed/invalid"
+                        ? `https://www.youtube.com/embed/${videokey}`
+                        : "https://www.youtube.com/embed/invalid"
                   }
                   frameBorder="0"
-                ></iframe>
+                >
+                </iframe>
               </div>
             </div>
           </div>
-          <div className="video-info-text">
-            <div className="input-group">
-              <label className="label-video">Video Url:</label>
+          <div className='video-info-text'>
+            <div className='input-group'>
+              <label className='label-video'>
+                Video Url:
+              </label>
               <input
                 type="url"
                 className="video-url"
@@ -359,74 +390,68 @@ function VideoForm() {
                   setVideoURL(value);
                   const videoKey = getYouTubeVideoID(value);
                   if (videoKey) {
-                    setSelectedVideo((prev) => ({
-                      ...prev,
-                      url: `https://www.youtube.com/embed/${videoKey}`,
-                    }));
+                    setSelectedVideo((prev) => ({ ...prev, url: `https://www.youtube.com/embed/${videoKey}` }));
                   } else {
-                    setSelectedVideo((prev) => ({ ...prev, url: "" }));
+                    setSelectedVideo((prev) => ({ ...prev, url: '' }));
                   }
                 }}
                 ref={urlRef}
               />
             </div>
-            <div className="input-group">
-              <label className="label-video">Name Video:</label>
+            <div className='input-group'>
+              <label className='label-video'>
+                Name Video:
+              </label>
               <input
-                type="text"
-                className="video-name"
+                type='text'
+                className='video-name'
                 maxLength={100}
-                value={selectedvideo.name || ""}
-                onChange={(e) =>
-                  setSelectedVideo({ ...selectedvideo, name: e.target.value })
-                }
+                value={selectedvideo.name || ''}
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, name: e.target.value })}
                 ref={nameRef}
               />
             </div>
-            <div className="input-group">
-              <label className="label-video">Site:</label>
+            <div className='input-group'>
+              <label className='label-video'>
+                Site:
+              </label>
               <input
-                type="text"
-                className="site-name"
-                value={selectedvideo.site || ""}
+                type='text'
+                className='site-name'
+                value={selectedvideo.site || ''}
                 maxLength={20}
-                onChange={(e) =>
-                  setSelectedVideo({ ...selectedvideo, site: e.target.value })
-                }
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, site: e.target.value })}
                 ref={siteRef}
               />
             </div>
-            <div className="input-group">
-              <label className="label-video">Video Type:</label>
+            <div className='input-group'>
+              <label className='label-video'>
+                Video Type:
+              </label>
               <input
-                type="text"
-                className="video-type-name"
+                type='text'
+                className='video-type-name'
                 maxLength={20}
-                value={selectedvideo.videoType || ""}
-                onChange={(e) =>
-                  setSelectedVideo({
-                    ...selectedvideo,
-                    videoType: e.target.value,
-                  })
-                }
+                value={selectedvideo.videoType || ''}
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, videoType: e.target.value })}
                 ref={videoTypeRef}
               />
             </div>
-            <div className="input-group">
-              <label className="label-video">Official:</label>
+            <div className='input-group'>
+              <label className='label-video'>
+                Official:
+              </label>
               <select
-                className="seletor-official"
+                className='seletor-official'
                 value={
                   selectedvideo && selectedvideo.official !== undefined
-                    ? selectedvideo.official
-                      ? "Yes"
-                      : "No"
-                    : ""
+                    ? (selectedvideo.official ? 'Yes' : 'No')
+                    : ''
                 }
                 onChange={(e) =>
                   setSelectedVideo({
                     ...selectedvideo,
-                    official: e.target.value === "Yes",
+                    official: e.target.value === 'Yes',
                   })
                 }
               >
@@ -436,24 +461,32 @@ function VideoForm() {
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
+
             </div>
           </div>
-          <div className="save-edit-back-btn">
+          <div className='save-edit-back-btn'>
             {!videoId ? (
               <>
-                <button
-                  className="edit-save-btn"
-                  type="button"
+                <button className='edit-save-btn'
+                  type='button'
                   onClick={handlesave}
                 >
                   Save
                 </button>
+                <div>
+                  <button
+                    className='import-videos-button'
+                    type='import-videos-button'
+                    onClick={importDataVideo}
+                  >
+                    Import All Videos
+                  </button>
+                </div>
               </>
             ) : (
               <>
-                <button
-                  className="edit-save-btn"
-                  type="button"
+                <button className='edit-save-btn'
+                  type='button'
                   onClick={() => videoUpdate(videoId)}
                 >
                   Update
@@ -461,14 +494,17 @@ function VideoForm() {
               </>
             )}
 
-            <button className="clear-btn" type="button" onClick={handleclear}>
+            <button className='clear-btn'
+              type='button'
+              onClick={handleclear}
+            >
               Clear
             </button>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default VideoForm;
+export default VideoForm

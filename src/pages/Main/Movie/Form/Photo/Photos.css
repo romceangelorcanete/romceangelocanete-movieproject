@@ -107,6 +107,25 @@ body {
   transform: scale(1.05);
 }
 
+.import-photos-button {
+  height: 49px;
+  margin-left: 0%;
+  width: 150px;
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  background-color: hsl(120, 60%, 40%);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.import-photos-button:hover {
+  background-color: hsl(120, 70%, 45%);
+}
+
 /* Photo Card Display */
 .card-display-photo {
   display: grid;

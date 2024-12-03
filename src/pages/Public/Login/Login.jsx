@@ -90,7 +90,7 @@ function Login() {
 
   return (
     <div className="Login">
-      <div className="main-container">
+      <div className="m-container">
         {alertMessage && (
           <div className={`alert-box ${isError ? "error" : "success"}`}>
             {alertMessage}
@@ -108,7 +108,7 @@ function Login() {
               </p>
             </div>
 
-            <div className="form-group">
+            <div className="form-group1">
               <label>Email:</label>
               <input
                 type="text"
@@ -121,7 +121,7 @@ function Login() {
               )}
             </div>
 
-            <div className="form-group">
+            <div className="form-group1">
               <label>Password:</label>
               <div>
                 <input

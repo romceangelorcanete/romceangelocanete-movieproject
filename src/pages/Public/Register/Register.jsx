@@ -19,7 +19,7 @@ function Register() {
   const middleNameRef = useRef();
   const lastNameRef = useRef();
   const contactNoRef = useRef();
-  const roleRef = useRef();
+  // const roleRef = useRef();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const userInputDebounce = useDebounce({ email, password, firstName, middleName, lastName, contactNo, role }, 2000);
   const [debounceState, setDebounceState] = useState(false);
@@ -126,11 +126,11 @@ function Register() {
 
   return (
     <div className='Register'>
-      <div className='main-container'>
+      <div className='m-container'>
         {alertMessage && (<div className={`alert-box ${isError ? 'error' : 'success'}`}>{alertMessage}</div>)}
         <form>
           <div className='form-container'>
-            <div className='register-header'>
+            <div style={{ marginTop: '100px' }} className='register-header'>
             <h1>Welcome to <span>NetMovies+</span></h1>
             <p>NetMovies+ is the streaming home for movies and series from Disney, Marvel, Star Wars, and Star.</p>
             </div>
@@ -138,63 +138,63 @@ function Register() {
 
               <div>
                 <div className='form-group'>
-                  <label>First Name:</label>
+                  <label style={{ color: 'black' }}>First Name:</label>
                   <input type='text' name='firstName' ref={firstNameRef} onChange={(e) => handleOnChange(e, 'firstName')} required/>
                 </div>
                 {debounceState && isFieldsDirty && firstName === '' && (
-                  <span className='errors'>This field is required</span>
+                  <span className='errors1'>This field is required</span>
                 )}
               </div>
 
               <div>
                 <div className='form-group'>
-                  <label>Middle Name:</label>
+                  <label style={{ color: 'black' }}>Middle Name:</label>
                   <input type='text' name='middleName' ref={middleNameRef} onChange={(e) => handleOnChange(e, 'middleName')} required/>
                 </div>
                 {debounceState && isFieldsDirty && middleName === '' && (
-                  <span className='errors'>This field is required</span>
+                  <span className='errors1'>This field is required</span>
                 )}
               </div>
 
               <div>
                 <div className='form-group'>
-                  <label>Last Name:</label>
+                  <label style={{ color: 'black' }}>Last Name:</label>
                   <input type='text' name='lastName' ref={lastNameRef} onChange={(e) => handleOnChange(e, 'lastName')} required/>
                 </div>
                 {debounceState && isFieldsDirty && lastName === '' && (
-                  <span className='errors'>This field is required</span>
+                  <span className='errors1'>This field is required</span>
                 )}
               </div>
 
                 <div>
                   <div className='form-group'>
-                    <label>Contact Number:</label>
+                    <label style={{ color: 'black' }}>Contact Number:</label>
                     <input type='text' name='contactNo' ref={contactNoRef} onChange={(e) => handleOnChange(e, 'contactNo')} required/>
                   </div>
                   {debounceState && isFieldsDirty && contactNo === '' && (
-                    <span className='errors'>This field is required</span>
+                    <span className='errors1'>This field is required</span>
                   )}
                 </div>
 
               <div>
                 <div className='form-group'>
-                  <label>Email:</label>
+                  <label style={{ color: 'black' }}>Email:</label>
                   <input type='text' name='email' ref={emailRef} onChange={(e) => handleOnChange(e, 'email')} required/>
                   </div>
                   {debounceState && isFieldsDirty && email === '' && (
-                    <span className='errors'>This field is required</span>
+                    <span className='errors1'>This field is required</span>
                   )}
                 </div>
                 <div>
                   <div className='form-group'>
-                    <label>Password:</label>
+                    <label style={{ color: 'black' }}>Password:</label>
                     <div>
                       <input type={isShowPassword ? 'text' : 'password'} name='password' ref={passwordRef} onChange={(e) => handleOnChange(e, 'password')} />
                       <span className={`fas ${isShowPassword ? 'fa-eye-slash' : 'fa-eye'}` } id='icon-toggle' onClick={handleShowPassword} />
                     </div>
                   </div>
                   {debounceState && isFieldsDirty && password === '' && (
-                    <span className='errors'>This field is required</span>
+                    <span className='errors1'>This field is required</span>
                   )}
                 </div>
               </div>
