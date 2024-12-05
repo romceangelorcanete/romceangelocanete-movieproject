@@ -76,7 +76,14 @@ const Lists = () => {
             </tr>
           </thead>
           <tbody>
-            {lists.map((movie, index) => (
+          {lists.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" className="text-center">
+                                    <strong>Movie not found.</strong>
+                                </td>
+                            </tr>
+                        ) : (
+            lists.map((movie, index) => (
               <tr key={movie.id}>
                 <td>{index + 1}</td>
                 <td>{movie.id}</td>
@@ -103,13 +110,14 @@ const Lists = () => {
                     className="delete-button"
                     type="button"
                     style={{ width: '30%' }}
-                    onClick={() => handleDelete(movie.id)}
+                    onClick={() => handleDelete(movie.tmdbId)}
                   >
                     <FontAwesomeIcon icon={faTrash} style={{ marginRight: '8px' }} /> Delete
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+          )}
           </tbody>
         </table>
       </div>

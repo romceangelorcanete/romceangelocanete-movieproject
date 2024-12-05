@@ -291,7 +291,7 @@ const Form = () => {
                         src={selectedMovie?.poster_path
                             ? `https://image.tmdb.org/t/p/original/${selectedMovie.poster_path}`
                             : require('./../../../../assets/Images/movieposter.jpg')}
-                        alt={selectedMovie?.title || 'Fallback Cinematography Symbol'}
+                        alt={selectedMovie?.title}
                     />
                 </div>
 

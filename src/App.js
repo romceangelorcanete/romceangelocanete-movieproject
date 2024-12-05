@@ -18,6 +18,10 @@ import Client from './pages/Client/Client';
 import Home from './pages/Client/Home/Home';
 import Movie from './pages/Client/Movie/MovieView';
 
+//ADT313 MOVIE PROJECT: (+NETMOVIES)
+//Submitted by: Romce Angelo R. Cañete BSIT-3A
+
+
 const router = createBrowserRouter([
   {
     path: '/',
