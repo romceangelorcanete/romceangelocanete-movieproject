@@ -1,5 +1,18 @@
 <<<<<<< HEAD
 
+Sir Lemuel, papalitan po ng movieproject-api yung modified kasi updated po yung bagong database salamat po
+Try niyo po sir medyo 80 percent zoom in or original 100 percent like
+
+Mag-import lang ng MovieprojectDB.sql sa phpmyadmin, sir
+tapos eto na yung Login or kung gusto mo mag Register po sir
+Admin
+user: adminromce@gmail.com
+password: qwerty
+
+Client
+user: romcecanetell@gmail.com
+password: 123
+
 # Semi-finals & Finals coverage
 
 # Admin Dashboard with Design ALL FINISHED
