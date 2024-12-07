@@ -1,0 +1,246 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f3f4f6; /* Light gray background */
+  color: #333;
+}
+
+/* Main Layout Container */
+.box {
+  /* height: 184vh; */
+  /* display: grid; */
+  grid-template-areas: 
+    "head"
+    "main"
+    "foot";
+  grid-template-rows: 70px auto 90px;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+/* Header */
+header {
+  grid-area: head;
+  background-color: #343a40; /* Dark gray for header */
+  color: #fff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Content */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between title, navigation, and user info */
+  width: 100%;
+}
+
+/* Header Right (User Info and Logout) */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between user info and logout button */
+}
+
+
+/* User Info (Right) */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align text to the right */
+  color: white;
+  margin-left: auto; /* Push user info to the far right */
+}
+.name-user {
+  font-size: 18px;
+  margin: 0;
+}
+
+.role-user {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Navigation Menu */
+/* Centered Navigation */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 40px; /* Space between menu items */
+  margin: 0;
+  padding: 0;
+  position: absolute; /* Allows precise centering */
+  left: 50%; /* Start at the horizontal center */
+  transform: translateX(-50%); /* Center align the menu */
+  font-size: 18px;
+}
+
+.nav-menu li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+
+  font-weight: bold;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.nav-menu li:hover {
+  color: #61dafb; /* Highlight color */
+}
+
+.nav-menu li span {
+  text-transform: uppercase;
+}
+
+/* Header Left (Title) */
+.title-text {
+  font-size: 28px;
+  color: rgb(255, 136, 0);
+}
+
+/* Logout Button (Next to User Info) */
+.logout-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-left: 20px; /* Add spacing from the user info */
+  margin-right: 100px;
+}
+
+.logout-btn:hover {
+  color: #f1f5f9;
+}
+
+/* Main Content */
+article {
+  grid-area: main;
+  background-color: #b8b8b8; /* Light gray background for content */
+  min-height: calc(100vh - 160px); /* Adjust for header and footer */
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Footer */
+footer {
+  grid-area: foot;
+  background-color: #343a40; /* Dark gray for footer */
+  color: #ffffff; /* White text for contrast */
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  font-size: 14px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto; /* Center content horizontally */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items */
+  gap: 10px; /* Space between text sections */
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-credits {
+  margin: 0;
+  font-size: 14px;
+  color: #cccccc; /* Slightly lighter text for differentiation */
+}
+
+.footer-link {
+  color: #61dafb; /* Highlight link color */
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline; /* Add underline on hover for clarity */
+}
+
+footer a {
+  color: #61dafb; /* Link color */
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .text-rights {
+  margin: 10px 0;
+}
+
+/* Responsive Design */
+
+/* General Adjustments */
+
+/* For Tablets and Large Phones */
+@media (max-width: 768px) {
+
+
+  /* .header-content {
+    flex-direction: column; /* Stack items vertically */
+    /* align-items: center; Center content */
+  /* } */
+
+  .nav-menu {
+    margin-left: 25px;
+    position: relative; /* Allow better positioning */
+    transform: none; /* Remove centering transformation */
+    justify-content: center; /* Center menu items naturally */
+    left: 0;
+    font-size: 2vw;
+  }
+
+.title-text{
+  margin-right: 10px;
+  font-size: 3vw;
+  
+
+}
+
+.name-user{
+
+  font-size: 2vw;
+  margin-right: center;
+}
+
+.role-user{
+
+  font-size: 2vw;
+}
+
+  .user-info {
+    align-items: center; /* Center-align user info text */
+    margin-left: 30px; /* Reset margin */
+    text-align: center; /* Align text */
+    font-size: 1vw;
+  }
+
+  .logout-btn {
+    font-size: 20px;
+    margin-left: 0; /* Remove margin for better spacing */
+  }
+
+  footer {
+    
+    text-align: center; /* Center all footer content */
+  }
+}

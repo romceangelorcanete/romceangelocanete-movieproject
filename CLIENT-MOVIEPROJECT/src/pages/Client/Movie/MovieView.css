@@ -1,0 +1,293 @@
+/* Apply a more polished global font */
+
+body {
+   font-family: 'Roboto', sans-serif;
+   background-color: #121212; /* Dark theme for better contrast */
+   color: #e0e0e0; /* Light color for text */
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+/* Global Scrollbar Styling */
+::-webkit-scrollbar {
+   width: 8px;
+   height: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+   background-color: #2e3a46;
+}
+
+::-webkit-scrollbar-thumb {
+   background-color: #61617c;
+   border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background-color: #46466e;
+}
+
+/* Main container for movie details */
+.container-movie-card {
+   /* position: absolute; */
+   top: 7.6vh;
+   bottom: -21vh;
+   left: 0;
+   right: 0;
+   overflow-x: hidden;
+   overflow-y: auto;
+   scrollbar-width: none;
+   -ms-overflow-style: none;
+}
+
+/* View Movie Poster */
+.View-Movie-Poster {
+   width: 100%;
+   border-radius: 10px;
+}
+
+/* Banner for background image */
+.banner {
+   width: 20%;
+   z-index: 1;
+   border-radius: 10px;
+}
+
+.View-Movie-Poster:hover {
+   box-shadow: 0px 0px 10px 5px #e7a730; /* Hover effect */
+}
+
+/* Movie Info Section */
+.Movie-Tab-Info {
+   display: flex;
+   justify-content: center;
+   padding: 10px;
+   gap: 20px;
+   position: relative;
+}
+
+/* Backdrop Image Styling */
+.image-backdropPath {
+   position: relative;
+}
+
+/* Background overlay for text readability */
+.background-overlay {
+   position: absolute;
+   left: 0;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   background-color: rgba(53, 58, 63, 0.8); /* Darkened overlay */
+}
+
+/* Info flex container */
+.info-movie-flex {
+   font-size: 10pt;
+   width: 400px;
+   color: white;
+   z-index: 1;
+}
+
+
+
+/* Overview text styling */
+.overview-h3 {
+   width: 80vh;
+   font-size: 20px;
+   font-weight: normal;
+   line-height: 1.5;
+}
+
+/* Image slider container */
+.Slide-Viewer {
+   display: flex;
+   gap: 10px;
+   padding: 10px;
+   overflow: auto;
+   margin-top: 10px;
+}
+
+/* Tab headers */
+.Tab-Viewer-h1 {
+   font-size: bold;
+   padding: 10px 0px 0px 20px;
+   color: rgb(255, 123, 0); /* Orange color for headings */
+}
+
+/* Color of slider */
+.Slider-Color {
+   background-color: #35353b;
+}
+
+
+
+/* Message for not found data */
+.not-found-message {
+   color: #aaa;
+   text-align: center;
+   font-style: italic;
+   padding: 10px;
+   margin: 10px 0;
+}
+
+.movie-year{
+   font-size: 13px;
+   font-weight: bold;
+}
+
+
+/* Responsive styles for mobile screens */
+@media (max-width: 800px) {
+   .Movie-Tab-Info {
+       display: block;
+       text-align: center;
+   }
+
+   .image-backdropPath {
+       margin: 0 auto;
+       width: 80%;
+       height: auto;
+   }
+
+   .info-movie-flex {
+       font-size: 10pt;
+       width: 80%;
+       color: white;
+       margin: 20px auto;
+       text-align: center;
+       z-index: 1;
+       position: relative;
+   }
+
+   .banner {
+       width: 80%;
+       margin: 10px auto;
+       z-index: 1;
+       position: relative;
+   }
+
+   .Tab-Viewer-h1 {
+       font-size: 18pt;
+       padding: 10px 0px 5px 20px;
+   }
+
+   .View-Movie-Poster {
+       width: 70%;
+   }
+}
+
+/* Styling for Popularity and Rating Sections */
+.movie-info {
+   margin-top: 20px;
+   color: #f1f1f1;
+}
+
+/* Popularity Section */
+.popularity {
+   display: flex;
+   flex-direction: column; /* Row layout for popularity */
+   align-items: center;
+   margin-bottom: -100px;
+   justify-content: center;
+   margin-top: -100px;
+   color: #f1f1f1;
+   font-size: 15px;
+}
+
+.popularity .popularity-label {
+   font-weight: bold;
+   font-size: 18px;
+}
+
+.popularity .popularity-value {
+   font-weight: bold;
+   color: #f39c12; /* Orange for popularity value */
+}
+
+.popularity .popularity-bar {
+   width: 100%;
+   height: 8px;
+   border-radius: 5px;
+   background-color: #555;
+   margin-top: 5px;
+   position: relative;
+}
+
+.popularity .popularity-progress {
+   width: 60%; /* Set the width dynamically based on the popularity score */
+   height: 100%;
+   border-radius: 5px;
+   background-color: #ffcc00; /* Yellow for progress bar */
+}
+
+/* Ratings Section */
+.rating {
+   display: flex;
+   flex-direction: column;
+   margin-top: 10px;
+   color: #f1f1f1;
+}
+
+.rating .rating-title {
+   font-weight: bold;
+   font-size: 18px;
+   margin-bottom: 10px;
+}
+
+.rating .rating-stars {
+   display: flex;
+   align-items: center;
+   gap: 20px;
+}
+
+.rating .rating-stars i {
+   font-size: 24px;
+   color: #f39c12; /* Yellow color for filled stars */
+}
+
+.rating .rating-stars .empty {
+   color: #7f8c8d; /* Gray color for empty stars */
+}
+
+.rating .rating-score {
+
+   font-size: 17px;
+   font-weight: bold;
+   color: #ffffff; /* Red color for the score */
+   margin-bottom: 70px;
+   margin-top: 50px 15px;
+}
+
+.rating .rating-votes {
+   font-size: 14px;
+   color: #7f8c8d;
+   margin-top: 5px;
+}
+
+/* Styling for mobile responsiveness */
+@media (max-width: 800px) {
+   .popularity {
+       flex-direction: column;
+       align-items: flex-start;
+   }
+
+   .rating {
+       flex-direction: column;
+       align-items: flex-start;
+   }
+
+   .rating .rating-stars {
+       flex-direction: row;
+   }
+   .overview-h3 {
+      max-width: 100vh;
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 1.5;
+   }
+
+
+}

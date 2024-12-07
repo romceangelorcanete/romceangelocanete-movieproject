@@ -1,0 +1,91 @@
+.card-movie {
+  max-width: 230px;
+  background-color: #4f4f60;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card-movie img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.card-movie:hover {
+  transform: scale(1.05);
+  background-color: #373745;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+}
+
+.movie-details {
+  margin-top: -30px;
+  padding: 10px 5px;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.movie-rating {
+  color: #ffd700;
+}
+
+.movie-quality {
+  color: #00ccff;
+  font-weight: bold;
+}
+
+.movie-year {
+  color: #ccc;
+}
+
+.movie-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.watch-now-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.watch-now-button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 500px) {
+  .card-movie {
+    max-width: 150px;
+  }
+
+  .movie-title {
+    font-size: 12px;
+  }
+
+  .movie-info {
+    font-size: 10px;
+  }
+
+  .watch-now-button {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}

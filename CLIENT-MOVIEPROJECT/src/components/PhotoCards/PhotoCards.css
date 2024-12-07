@@ -1,0 +1,66 @@
+.card-photo-data {
+    width: 1000px; /* Adjust the max-width for better control */
+    border: 20px solid #4f4f60;
+    background-color: #4f4f60;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    font-weight: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+
+.card-photo-data img {
+    width:  70vh; /* Ensure the image is responsive */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Ensure the image is not distorted */
+    border-radius: 10px;
+}
+
+.photo-descript-card{
+    margin-top: 20px;
+}
+
+.card-photo-data:hover {
+    border: 20px solid #373745;
+    background-color: #373745;
+}
+
+@media (max-width: 764px) {
+    .card-photo-data {
+        max-width: 110vh; /* Allow the container to fill the screen */
+        font-size: 5px; /* Further reduce font size */
+        width: 1000px;
+
+    }
+
+    .card-photo-data img {
+        width: 100vh;
+        height: auto;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+
+    .photo-descript-card {
+        font-size: 10px; /* Adjust description font size */
+    }
+}
+
+@media (max-width: 350px) {
+    .card-photo-data {
+        max-width: 100%; /* Full-width for very small screens */
+        font-size: 8px; /* Minimize font size for readability */
+        padding: 3px; /* Further reduce padding */
+    }
+
+    .card-photo-data img {
+        max-width: 100%; /* Scale down image */
+        border-radius: 5px; /* Smaller border radius */
+    }
+
+    .photo-descript-card {
+        font-size: 8px; /* Match font size to overall scale */
+    }
+}

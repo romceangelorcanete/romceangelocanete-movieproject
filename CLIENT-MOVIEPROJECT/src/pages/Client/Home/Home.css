@@ -1,0 +1,265 @@
+.main-container {
+  background-color: rgb(41, 43, 52);
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.featured-slider {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.slider-item {
+  height: 500px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-backdrop {
+  height: 100%;
+  width: 100%;
+  background-size: cover !important;
+  display: flex;
+  align-items: end;
+}
+
+.Movies-Title-Description {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  max-width: 40%;
+  color: white;
+}
+
+.title-movie-year{
+  font-size: 14px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+
+
+.title-movies-h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.overview-movies-p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rating-circle {
+  width: 50px;
+  height: 50px;
+  background: #444;
+  color: #fff;
+  font-size: 0.7rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #ffd700;
+}
+
+.star-container {
+  display: flex;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ffd700;
+}
+
+.star.empty {
+  color: #666;
+}
+
+.popularity-badge {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-top: 10px;
+  width: 30vh;
+  margin-bottom: 10px;
+}
+
+.popularity-red {
+  background-color: #e91e63;
+  color: white;
+}
+
+.popularity-yellow {
+  background-color: #fbc02d;
+  color: black;
+}
+
+.popularity-green {
+  background-color: #4caf50;
+  color: white;
+}
+
+.play-button {
+  width: 25vh;
+  display: inline-flex; /* Use inline-flex to align the text and icon horizontally */
+  align-items: center;  /* Vertically center the icon and text */
+  padding: 12px 25px;    /* Adjust padding for a larger clickable area */
+  background-color: #ff0; /* Yellow background */
+  color: #000;          /* Black text */
+  font-size: 16px;       /* Font size for the text */
+  text-decoration: none; /* Remove underline from link */
+  border-radius: 50px;   /* Rounded button for a modern look */
+  margin-top: 20px;      /* Space from other elements */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.play-button i {
+  margin-right: 10px; /* Space between the icon and text */
+  font-size: 30px;    /* Icon size */
+}
+
+.play-button:hover {
+  background-color: #ffcc00; /* Darker yellow on hover */
+  transform: scale(1.1); /* Slightly increase size on hover */
+}
+
+.play-button:active {
+  transform: scale(1); /* Reset the size when button is clicked */
+}
+
+.movies-list {
+  padding: 20px;
+}
+
+.title-text-movie-lists {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.no-featured-movies, .no-movies {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.no-featured-movies h2, .no-movies h2 {
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.modal {
+  display: flex !important;
+  justify-content: center;
+  /* align-items: center;
+  position: fixed; */
+  top: 1;
+  left: 10;
+  transform: translate(0vh, -0vh);
+  width:100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 100px;
+
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+}
+
+.trailer-iframe {
+  display: block !important;
+  width: 2000vh !important;
+  height: 112% !important;
+  border: none;
+  z-index: 100003 !important;
+  background-color: #000000; /* Debugging: Ensure iframe has a background */
+ }
+
+@media (max-width: 768px) {
+  .trailer-iframe {
+    height: 300px;
+  }
+}
+
+
+@media (max-width: 764px) {
+
+  .box{
+height: auto;
+  }
+  .Movies-Title-Description{
+    top: 20px;
+    max-width: 51.5%;
+  }
+  .title-movies-h1{
+    font-size: 5vw;
+  }
+  .title-movie-year{
+    font-size: 2vw;
+  }
+  .overview-movies-p{
+    font-size: 3vw;
+  }
+  .popularity-badge{
+    font-size: 3vw;
+    width: 100%;
+  }
+  .play-button{
+    margin-bottom: 10px;
+    margin-top: 5px;
+    width: 18vh;
+    padding: 5px 15px;
+    font-size: 2vw;
+  }
+.rating-circle{
+  width: 50px;
+  padding: 5px 5px;
+}
+.star-container{
+  margin: 5px;
+}
+.modal{
+  max-width: 100vh;
+  padding: 189px;
+}
+
+}

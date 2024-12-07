@@ -1,0 +1,88 @@
+.card-video-data {
+    
+    max-width: 100%; /* Adjust to fit your layout */
+    border: 20px solid #4f4f60;
+    background-color: #4f4f60;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100vh; /* Full width of the container */
+    padding-top: 56.25%; /* Aspect ratio for 16:9 (9/16 * 100) */
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: black; /* Optional background for empty frames */
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+}
+
+.card-video-data:hover {
+    border: 20px solid #373745;
+    background-color: #373745;
+}
+
+.video-name-card {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-video-data {
+        padding: 10px; /* Reduce padding for smaller screens */
+        font-size: 12px; /* Slightly smaller font size */
+        max-width: 500px;
+    }
+
+    .video-wrapper {
+        padding-top: 56.25%; /* Maintain 16:9 ratio */
+        width: 40vh;
+    }
+
+    .video-name-card {
+        font-size: 12px; /* Adjust text size */
+    }
+}
+
+@media (max-width: 500px) {
+    .card-video-data {
+        padding: 5px;
+        font-size: 10px; /* Reduce font size further */
+    }
+
+    .video-wrapper {
+        padding-top: 75%; /* Switch to 4:3 aspect ratio */
+    }
+
+    .video-name-card {
+        font-size: 10px;
+    }
+}
+
+/* Very Small Devices (e.g., phones in portrait mode) */
+@media (max-width: 350px) {
+    .card-video-data {
+        padding: 2px;
+        font-size: 8px; /* Further reduce font size */
+    }
+
+    .video-wrapper {
+        padding-top: 100%; /* Square aspect ratio for tight spaces */
+    }
+
+    .video-name-card {
+        font-size: 8px;
+    }
+}
