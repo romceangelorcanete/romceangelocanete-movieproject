@@ -17,59 +17,31 @@
 
 # Semi-finals & Finals coverage
 
-# Admin Dashboard with Design ALL FINISHED
+  ### Admin Dashboard and Client side with Design (All Finished)
+    ### useContext(CHECKED)
+    Admin Only - Login and Register - CHECKED
+    Edit and Update Movie with Field Validation - CHECKED
+    Add, Update and Import All Automatic with TMBD ( Casts, Videos, Photos) - CHECKED
+    Mobile Responsive - No
 
-### useContext(CHECKED)
-
-### Admin Only - Login and Register - CHECKED
-
-### Create Movie with search to TMDB - CHECKED
-
-### Edit and Update Movie with Field Validation - CHECKED
-
-### Add, Update and Import All Automatic with TMBD ( Casts, Videos, Photos) - CHECKED
-
-### Mobile Responsive - No
-
-# Client Site with design ALL FINISHED
-
-### Mobile Responsive - Yes
-
-### useContext(CHECKED)
-
-### Admin and User only - Login and Register(User only) - CHECKED
-
-### Home, Movies and MovieView - Watch Trailer, Cast ,Videos and Photos - CHECKED
-
-# Dependencies
-
-React-FortAwesome/FontAwesome - Free/SVG ICONS/SVG CORE
-
-### Web-Vitals
-
-### Slick-Carousel
-
-### React-Scripts
-
-### React-Bootstrap
-
-### Rect-Slick
-
-### React
-
-### React-DOM
-
-### React-Router-DOM
-
-### React-Bootstrap
-
-### React-Redux
-
-### Redux
-
-### Axios
-
-### PropTypes
+    Client Side with Design (ALL FINISHED)
+    Mobile Responsive - Yes
+    useContext(CHECKED)
+    Admin and User only - Login and Register(User only) - CHECKED
+    Home, Movies and MovieView - Watch Trailer, Cast ,Videos and Photos - CHECKED
+    
+    Dependencies
+    Web-Vitals
+    Slick-Carousel
+    React-Scripts
+    React-Bootstrap
+    React
+    React-DOM
+    React-Router-DOM
+    React-Redux
+    Redux
+    Axios
+    PropTypes
 
 # Midterms coverage (checking is on finals)
 
