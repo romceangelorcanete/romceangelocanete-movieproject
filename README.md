@@ -29,19 +29,32 @@
 # Dependencies
 
 React-FortAwesome/FontAwesome - Free/SVG ICONS/SVG CORE
-Web-Vitals
-Slick-Carousel
-React-Scripts
-React-Bootstrap
-Rect-Slick
-React
-React-DOM
-React-Router-DOM
-React-Bootstrap
-React-Redux
-Redux
-Axios
-PropTypes
+
+### Web-Vitals
+
+### Slick-Carousel
+
+### React-Scripts
+
+### React-Bootstrap
+
+### Rect-Slick
+
+### React
+
+### React-DOM
+
+### React-Router-DOM
+
+### React-Bootstrap
+
+### React-Redux
+
+### Redux
+
+### Axios
+
+### PropTypes
 
 # Midterms coverage (checking is on finals)
 
