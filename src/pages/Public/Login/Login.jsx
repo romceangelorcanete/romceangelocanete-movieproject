@@ -46,38 +46,57 @@ function Login() {
     ? "/admin/login"
     : "/user/login";
 
-  const handleLogin = async () => {
-    const data = { email, password };
-    setStatus("loading");
-
-    try {
-      const res = await axios.post(apiEndpoint, data, {
-        headers: { "Access-Control-Allow-Origin": "*" },
-      });
-
-      localStorage.setItem("accessToken", res.data.access_token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      setAuthData({
-        accessToken: res.data.access_token,
-        user: res.data.user,
-      });
-
-      setIsError(false);
-      setAlertMessage(res.data.message || "Login successful!");
-      setTimeout(() => {
-        navigate(res.data.user.role === "admin" ? "/main/dashboard" : "/home"); // /home this user login
-        setStatus("idle");
-      }, 3000);
-    } catch (e) {
-      setIsError(true);
-      setAlertMessage(e.response?.data?.message || e.message);
-      setTimeout(() => {
-        setAlertMessage("");
-        setStatus("idle");
-      }, 3000);
-    }
-  };
+    const handleLogin = async () => {
+      if (!email || !password) {
+        setIsFieldsDirty(true);
+        email === "" && emailRef.current.focus();
+        password === "" && passwordRef.current.focus();
+        setIsError(true); // Indicate an error state
+        setAlertMessage("Please fill in all required fields.");
+        return;
+      }
+    
+      const data = { email, password };
+      setStatus("loading");
+    
+      try {
+        const res = await axios.post(apiEndpoint, data, {
+          headers: { "Access-Control-Allow-Origin": "*" },
+        });
+    
+        // Save tokens and user details
+        localStorage.setItem("accessToken", res.data.access_token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+    
+        // Update Auth Context
+        setAuthData({
+          accessToken: res.data.access_token,
+          user: res.data.user,
+        });
+    
+        setIsError(false); // Success state
+        setAlertMessage(res.data.message || "Login successful!");
+    
+        setTimeout(() => {
+          // Navigate based on role
+          if (res.data.user.role === "admin") {
+            navigate("/main/dashboard"); // Admin dashboard
+          } else {
+            setIsError(true); // Non-admin login attempt to admin resources
+            setAlertMessage("You are not authorized to access admin resources.");
+            localStorage.clear(); // Clear localStorage to remove unwanted access
+          }
+          setStatus("idle");
+        }, 3000);
+      } catch (e) {
+        setIsError(true); // Error state
+        setAlertMessage(e.response?.data?.message || "Invalid email or password.");
+        setTimeout(() => {
+          setAlertMessage("");
+          setStatus("idle");
+        }, 3000);
+      }
+    };
 
  // Correctly using auth from context
  useEffect(() => {

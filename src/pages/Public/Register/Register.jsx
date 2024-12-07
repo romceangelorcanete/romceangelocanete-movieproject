@@ -79,9 +79,9 @@ function Register() {
   let apiEndpoint;
 
   if (window.location.pathname.includes('/admin')) {
-    apiEndpoint = '/admin/register';
-  } else {
     apiEndpoint = '/user/register';
+  } else {
+    apiEndpoint = '/admin/register';
   }
 
   const handleRegister = async () => {

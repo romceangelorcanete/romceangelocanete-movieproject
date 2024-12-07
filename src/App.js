@@ -14,9 +14,9 @@ import Casts from './pages/Main/Movie/Form/Cast/Cast';
 import Videos from './pages/Main/Movie/Form/Video/Videos';
 import Photos from './pages/Main/Movie/Form/Photo/Photos';
 import { AuthProvider } from './context/context';
-import Client from './pages/Client/Client';
-import Home from './pages/Client/Home/Home';
-import Movie from './pages/Client/Movie/MovieView';
+// import Client from './pages/Client/Client';
+// import Home from './pages/Client/Home/Home';
+// import Movie from './pages/Client/Movie/MovieView';
 
 //ADT313 MOVIE PROJECT: (+NETMOVIES)
 //Submitted by: Romce Angelo R. Cañete BSIT-3A
@@ -86,16 +86,16 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/home',
-    element: <Client />,
+    // path: '/home',
+    // element: <Client />,
     children: [
       {
-        path: '/home',
-        element: <Home />
+        // path: '/home',
+        // element: <Home />
       },
       {
-        path: '/home/movie/:movieId?',
-        element: <Movie />
+        // path: '/home/movie/:movieId?',
+        // element: <Movie />
       }
     ]
   },

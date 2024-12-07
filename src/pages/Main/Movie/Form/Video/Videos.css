@@ -217,6 +217,13 @@ div.card-video{
   transform: scale(1.05);
 }
 
+.video-style{
+
+
+  height: 25vh;
+  width: 34.5vh;
+}
+
 /* Video Info Section */
 .video-info-text {
   display: flex;
