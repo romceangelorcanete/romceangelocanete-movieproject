@@ -299,7 +299,7 @@ function Photos() {
               <label className='label-photo'>
                 Url Image:
               </label>
-              <input
+              <input style={{color: 'white', backgroundColor:'#3a3a3a'}}
                 className='photo-url'
                 value={selectedphoto.url || ''}
                 onChange={(e) => setSelectedPhoto({ ...selectedphoto, url: e.target.value })}
@@ -310,7 +310,7 @@ function Photos() {
               <label className='label-photo'>
                 Description:
               </label>
-              <textarea
+              <textarea style={{color: 'white', backgroundColor:'#3a3a3a'}}
                 className='photo-description'
                 value={selectedphoto.description || ''}
                 onChange={(e) => setSelectedPhoto({ ...selectedphoto, description: e.target.value })}

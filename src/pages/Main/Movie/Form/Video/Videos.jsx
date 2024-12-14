@@ -378,10 +378,10 @@ function VideoForm() {
           </div>
           <div className='video-info-text'>
             <div className='input-group'>
-              <label className='label-video'>
+              <label  className='label-video'>
                 Video Url:
               </label>
-              <input
+              <input style={{color: 'white', backgroundColor:'#3a3a3a'}}
                 type="url"
                 className="video-url"
                 value={videoURL || selectedvideo.url}
@@ -402,7 +402,7 @@ function VideoForm() {
               <label className='label-video'>
                 Name Video:
               </label>
-              <input
+              <input style={{color: 'white', backgroundColor:'#3a3a3a'}}
                 type='text'
                 className='video-name'
                 maxLength={100}
@@ -415,7 +415,7 @@ function VideoForm() {
               <label className='label-video'>
                 Site:
               </label>
-              <input
+              <input style={{color: 'white', backgroundColor:'#3a3a3a'}}
                 type='text'
                 className='site-name'
                 value={selectedvideo.site || ''}
@@ -428,7 +428,7 @@ function VideoForm() {
               <label className='label-video'>
                 Video Type:
               </label>
-              <input
+              <input style={{color: 'white', backgroundColor:'#3a3a3a'}}
                 type='text'
                 className='video-type-name'
                 maxLength={20}
